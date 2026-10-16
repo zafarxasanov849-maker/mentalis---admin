@@ -61,7 +61,7 @@ p{margin:0}
   .tab{flex:1}
 }
 
-main{padding-top:16px}
+main.wrap{padding-top:16px}
 section[hidden]{display:none}
 .block{background:var(--section);border-radius:var(--r);padding:16px;margin-bottom:12px}
 .block > h2{margin-bottom:12px}
@@ -187,6 +187,72 @@ table.ses td{padding:10px 8px;border-bottom:1px solid var(--sep);vertical-align:
 .pill.soon{background:var(--warn-soft);color:var(--warn)}
 .pill.closed{background:var(--sunken);color:var(--hint)}
 .scroll-x{overflow-x:auto}
+#iSample th,#iSample td{white-space:nowrap}
+
+/* segmented switch */
+.seg{display:inline-flex;background:var(--sunken);border-radius:11px;padding:3px;gap:2px}
+.seg.full{display:flex}
+.seg.full > button{flex:1}
+.seg > button{border:0;background:none;padding:8px 12px;border-radius:9px;font-weight:550;color:var(--hint);min-height:38px;line-height:1.2}
+.seg > button[aria-pressed="true"]{background:var(--bg);color:var(--ink);box-shadow:0 1px 2px color-mix(in srgb, var(--ink) 16%, transparent)}
+.seg > button[disabled]{opacity:.45;cursor:not-allowed}
+.block .seg,.sheet .seg{background:var(--sunken)}
+.pools{margin-bottom:8px;background:var(--section)}
+.pools > button{display:grid;gap:1px;text-align:center;padding:9px 10px}
+.pools > button span{font-weight:650}
+.pools > button small{font-size:12px;font-weight:500;color:var(--hint)}
+.pools > button[aria-pressed="true"]{background:var(--ink);color:var(--bg);box-shadow:none}
+.pools > button[aria-pressed="true"] small{color:inherit;opacity:.7}
+.pool-note{font-size:14px;color:var(--hint);margin:0 2px 12px}
+.flabel{display:block;font-size:13px;color:var(--hint);margin-bottom:6px;font-weight:550}
+.pair{display:flex;gap:12px;flex-wrap:wrap}
+.pair > *{flex:1 1 220px;min-width:0}
+
+/* difficulty and type marks */
+.lvl{display:inline-block;border-radius:6px;padding:1px 7px;font-size:12px;font-weight:650;white-space:nowrap}
+.lvl.l1{background:var(--right-soft);color:var(--right)}
+.lvl.l2{background:var(--warn-soft);color:var(--warn)}
+.lvl.l3{background:color-mix(in srgb, var(--danger) 13%, transparent);color:var(--danger)}
+.kind{font-size:12px;font-weight:600;color:var(--link)}
+.q .thumb{display:block;max-width:min(100%, 260px);max-height:150px;border-radius:8px;border:1px solid var(--sep);margin:8px 0;object-fit:contain;background:var(--bg)}
+.answers{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:14px;margin-bottom:8px}
+.answers > span:first-child{color:var(--hint)}
+.achip{display:inline-flex;align-items:center;gap:2px;background:var(--right-soft);color:var(--right);border-radius:999px;padding:3px 10px;font-weight:600;font-size:14px}
+.achip button{border:0;background:none;color:inherit;font-size:17px;line-height:1;padding:0 2px 0 6px;min-height:24px}
+.ans-add{display:flex;gap:8px}
+.ans-add input{flex:1}
+
+/* image picker */
+.drop{border:1.5px dashed var(--sep);border-radius:12px;padding:18px;text-align:center;color:var(--hint);background:var(--bg)}
+.drop.over{border-color:var(--btn);background:color-mix(in srgb, var(--btn) 6%, var(--bg))}
+.drop b{color:var(--ink)}
+.drop img{display:block;max-width:100%;max-height:280px;margin:0 auto 10px;border-radius:8px;object-fit:contain}
+.drop .acts{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+
+/* Pro preview: a neutral exam card, not a Telegram bubble */
+.pcard{background:var(--section);border:1px solid var(--sep);border-radius:var(--r);padding:16px}
+.pcard > .cap{font-size:12px;color:var(--hint);margin-bottom:12px}
+.pcard .pmeta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--hint);margin-bottom:10px}
+.pcard .pmeta b{color:var(--ink)}
+.pcard img{display:block;max-width:100%;border-radius:8px;margin-bottom:10px}
+.pcard .pbody{white-space:pre-wrap;margin-bottom:12px}
+.pcard .po{display:flex;gap:10px;align-items:baseline;border:1px solid var(--sep);border-radius:10px;padding:9px 12px;margin-top:6px}
+.pcard .po b{min-width:1.2em}
+.pcard .po.ok{border-color:var(--right);background:var(--right-soft)}
+.pcard .pin{border:1px solid var(--sep);border-radius:10px;padding:10px 12px;color:var(--hint)}
+.pcard .psol{margin-top:14px;padding-top:12px;border-top:1px solid var(--sep);white-space:pre-wrap;font-size:14px}
+
+/* account menu (browser sessions) */
+.acct{position:relative}
+.acct summary{list-style:none;cursor:pointer;padding:8px 10px;border-radius:9px;color:var(--hint);font-weight:550;white-space:nowrap}
+.acct summary::-webkit-details-marker{display:none}
+.acct[open] summary{background:var(--sunken);color:var(--ink)}
+.acct .menu{position:absolute;right:0;top:calc(100% + 6px);z-index:30;background:var(--bg);border:1px solid var(--sep);border-radius:12px;padding:6px;min-width:250px;box-shadow:0 10px 28px color-mix(in srgb, #000 18%, transparent);display:grid}
+.acct .menu p{font-size:13px;color:var(--hint);padding:6px 10px 8px}
+.acct .menu button{border:0;background:none;text-align:left;padding:10px;border-radius:8px}
+.acct .menu button:hover{background:var(--sunken)}
+.acct .menu button.danger{color:var(--danger)}
+@media (max-width:620px){ .acct{order:1;margin-left:auto} .tabs{order:2} }
 
 .toast{position:fixed;left:50%;bottom:max(20px, env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;z-index:100;font-size:14px;max-width:calc(100% - 32px)}
 .gate{min-height:80vh;display:grid;place-items:center;text-align:center;padding:24px}
@@ -199,8 +265,8 @@ table.ses td{padding:10px 8px;border-bottom:1px solid var(--sep);vertical-align:
 <body>
 <div id="gate" class="gate" hidden>
   <div>
-    <h1>Panelni bot ichidan oching</h1>
-    <p id="gateMsg">Telegram’da @mentaliss_bot ga /admin yozing va “Panelni ochish” tugmasini bosing. Kirish faqat adminlar uchun.</p>
+    <h1 id="gateTitle">Mentalis admin</h1>
+    <p id="gateMsg"></p>
   </div>
 </div>
 
@@ -214,6 +280,14 @@ table.ses td{padding:10px 8px;border-bottom:1px solid var(--sep);vertical-align:
         <button class="tab" role="tab" data-tab="texts">Bot matnlari</button>
         <button class="tab" role="tab" data-tab="sessions">Sanalar</button>
       </nav>
+      <details class="acct" id="acct" hidden>
+        <summary><span id="acctName">Admin</span> ▾</summary>
+        <div class="menu">
+          <p>Bu brauzer 30 kun eslab qoladi. Begona kompyuterda ishlagan bo‘lsangiz, chiqib keting.</p>
+          <button type="button" data-out="one">Shu brauzerdan chiqish</button>
+          <button type="button" class="danger" data-out="all">Hamma brauzerlardan chiqish</button>
+        </div>
+      </details>
     </div>
   </header>
 
@@ -221,12 +295,23 @@ table.ses td{padding:10px 8px;border-bottom:1px solid var(--sep);vertical-align:
     <section id="tab-stats"></section>
 
     <section id="tab-questions" hidden>
+      <div class="seg full pools" id="qPools" role="group" aria-label="Savollar bazasi">
+        <button type="button" data-pool="daily" aria-pressed="true"><span>Kun savollari</span><small>bot · <b class="num" id="nDaily">…</b> ta</small></button>
+        <button type="button" data-pool="pro" aria-pressed="false"><span>Pro savollar</span><small>platforma · <b class="num" id="nPro">…</b> ta</small></button>
+      </div>
+      <p class="pool-note" id="qPoolNote"></p>
       <div class="toolbar">
         <input type="search" id="qSearch" placeholder="Qidirish" aria-label="Qidirish">
         <select id="qStatus" aria-label="Holat">
           <option value="all">Hammasi</option>
           <option value="active">Botda bor</option>
           <option value="hidden">Yashirilgan</option>
+        </select>
+        <select id="qDiff" aria-label="Qiyinlik" hidden>
+          <option value="">Hamma darajalar</option>
+          <option value="1">Oson</option>
+          <option value="2">O‘rta</option>
+          <option value="3">Qiyin</option>
         </select>
         <button class="btn ghost" id="qImportBtn">Excel’dan yuklash</button>
         <button class="btn" id="qAddBtn">Savol qo‘shish</button>
@@ -263,18 +348,50 @@ table.ses td{padding:10px 8px;border-bottom:1px solid var(--sep);vertical-align:
   <div class="sheet-body"><div class="wrap split">
     <form id="qForm" class="block" novalidate>
       <div id="qErr"></div>
+      <div class="f" style="margin-bottom:14px">
+        <span class="flabel">Qayerga</span>
+        <div class="seg full" id="qPoolSeg" role="group" aria-label="Qayerga">
+          <button type="button" data-v="daily">Kun savoli · bot</button>
+          <button type="button" data-v="pro">Pro · platforma</button>
+        </div>
+        <p class="hintline" id="qPoolHint"></p>
+      </div>
+      <div class="pair" id="qProOnly" style="margin-bottom:14px">
+        <div><span class="flabel">Turi</span>
+          <div class="seg full" id="qTypeSeg" role="group" aria-label="Savol turi">
+            <button type="button" data-v="choice">Variantli test</button>
+            <button type="button" data-v="written">Yozma javob</button>
+          </div></div>
+        <div><span class="flabel">Qiyinlik</span>
+          <div class="seg full" id="qDiffSeg" role="group" aria-label="Qiyinlik">
+            <button type="button" data-v="1">Oson</button>
+            <button type="button" data-v="2">O‘rta</button>
+            <button type="button" data-v="3">Qiyin</button>
+          </div></div>
+      </div>
       <div class="row" style="gap:12px;align-items:flex-start">
         <label class="f grow"><span>Fan</span><select name="subject" required></select></label>
         <label class="f grow"><span>Mavzu</span><input type="text" name="topic" maxlength="80" placeholder="Masalan: Planimetriya"></label>
       </div>
       <label class="f"><span>Savol matni</span><textarea name="body" rows="4" maxlength="1500" placeholder="Savolni to‘liq yozing"></textarea></label>
-      <div class="f" style="margin-bottom:14px">
-        <span style="display:block;font-size:13px;color:var(--hint);margin-bottom:6px;font-weight:550">Variantlar — to‘g‘ri javobning harfini bosing</span>
+      <div class="f" id="qImgBox" style="margin-bottom:14px">
+        <span class="flabel">Rasm yoki chizma — ixtiyoriy</span>
+        <div class="drop" id="qDrop"></div>
+        <input type="file" id="qImgFile" accept="image/jpeg,image/png,image/webp" hidden>
+      </div>
+      <div class="f" id="qChoiceBox" style="margin-bottom:14px">
+        <span class="flabel">Variantlar — to‘g‘ri javobning harfini bosing</span>
         <div class="opts" id="qOpts"></div>
         <button type="button" class="btn link" id="qAddOpt">Variant qo‘shish</button>
       </div>
+      <div class="f" id="qWrittenBox" style="margin-bottom:14px">
+        <span class="flabel">To‘g‘ri javob — o‘quvchi o‘zi yozadi</span>
+        <div class="answers" id="qAnswers"></div>
+        <div class="ans-add"><input type="text" id="qAnsInput" maxlength="100" placeholder="Masalan: 7" aria-label="To‘g‘ri javob"><button type="button" class="btn ghost" id="qAnsAdd">Qo‘shish</button></div>
+        <p class="hintline">Bir nechta to‘g‘ri yozilishi bo‘lsa, har birini alohida qo‘shing: 7 · y = 7 · 7,0</p>
+      </div>
       <label class="f"><span>Yechim</span><textarea name="explanation" rows="4" maxlength="1500" placeholder="Qanday yechiladi va qaysi xato ko‘p uchraydi"></textarea></label>
-      <label class="row" style="gap:8px"><input type="checkbox" name="active" checked> <span>Botda ishlatilsin</span></label>
+      <label class="row" style="gap:8px"><input type="checkbox" name="active" checked> <span id="qActiveLbl">Botda ishlatilsin</span></label>
     </form>
     <div class="preview">
       <div class="chat" id="qPreview"></div>
@@ -288,10 +405,14 @@ table.ses td{padding:10px 8px;border-bottom:1px solid var(--sep);vertical-align:
   <div class="sheet-head"><div class="wrap"><button class="btn link" data-close>Yopish</button><h2 id="iTitle">Excel’dan yuklash</h2></div></div>
   <div class="sheet-body"><div class="wrap">
     <div class="block">
+      <span class="flabel">Qayerga yuklanadi</span>
+      <div class="seg full" id="iPoolSeg" role="group" aria-label="Qayerga yuklanadi" style="margin-bottom:14px">
+        <button type="button" data-v="daily">Kun savollari · bot</button>
+        <button type="button" data-v="pro">Pro savollar · platforma</button>
+      </div>
       <p style="margin-bottom:10px">Excel yoki Google Sheets’da ustunlar shu tartibda bo‘lsin, birinchi qator — sarlavha:</p>
-      <div class="scroll-x"><table class="ses" style="margin-bottom:12px"><tr><th>fan</th><th>mavzu</th><th>savol</th><th>a</th><th>b</th><th>c</th><th>d</th><th>javob</th><th>yechim</th></tr>
-      <tr><td>Matematika</td><td>Foizlar</td><td>40 000 ning 15% i?</td><td>6 000</td><td>4 000</td><td>600</td><td>60</td><td>A</td><td>40 000 · 0,15 = 6 000</td></tr></table></div>
-      <p class="muted" style="font-size:14px;margin-bottom:12px">Jadvalni belgilab nusxa oling va pastga qo‘ying — yoki CSV faylni tanlang. “javob” ustuniga A, B, C, D yoki E yozing.</p>
+      <div class="scroll-x" id="iSample"></div>
+      <div class="muted" style="font-size:14px;margin-bottom:12px" id="iHelp"></div>
       <textarea id="iPaste" rows="6" placeholder="Shu yerga qo‘ying"></textarea>
       <div class="row" style="margin-top:10px;flex-wrap:wrap"><input type="file" id="iFile" accept=".csv,.tsv,.txt,text/csv"><span class="grow"></span><button class="btn ghost" id="iCheck">Tekshirish</button></div>
     </div>
@@ -359,12 +480,26 @@ const todayIso = () => new Date(Date.now() + 5 * 3600e3).toISOString().slice(0, 
 let ME = null;
 
 // ---------- api ----------
+// Inside Telegram every request carries the signed initData. In a normal browser it carries a session
+// that the one-time link from /admin created; the session is kept in this browser for 30 days.
+const SKEY = 'mentalis.admin.session';
+const inTg = () => !!(tg && tg.initData);
+let SESSION = null;
+function keep(v) { try { v ? localStorage.setItem(SKEY, v) : localStorage.removeItem(SKEY); } catch {} }
+function kept() { try { return localStorage.getItem(SKEY); } catch { return null; } }
+async function post(body) {
+  const res = await fetch(API, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+  const j = await res.json().catch(() => ({ ok: false, error: 'Server javob bermadi. Birozdan keyin qayta urinib ko‘ring.' }));
+  return { res, j };
+}
 async function call(action, params = {}) {
   if (DEMO) return demoCall(action, params);
-  const res = await fetch(API, { method: 'POST', headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ initData: tg?.initData || '', action, params }) });
-  const j = await res.json().catch(() => ({ ok: false, error: 'Server javob bermadi' }));
-  if (res.status === 401 || res.status === 403) { showGate(j.error); throw new Error(j.error); }
+  const auth = inTg() ? { initData: tg.initData } : { session: SESSION };
+  const { res, j } = await post({ ...auth, action, params });
+  if (res.status === 401 || res.status === 403) {
+    if (!inTg()) { keep(null); SESSION = null; }
+    showGate(j.error); throw new Error(j.error);
+  }
   return j;
 }
 function toast(text) {
@@ -389,7 +524,9 @@ function showSheet(el) {
   setTimeout(() => $('input,textarea,select', el)?.focus({ preventScroll: true }), 60);
 }
 function hideSheet() {
-  if (!openSheet) return; openSheet.hidden = true; openSheet = null; document.body.style.overflow = ''; tg?.BackButton?.hide();
+  if (!openSheet) return;
+  const el = openSheet; el.hidden = true; openSheet = null; document.body.style.overflow = ''; tg?.BackButton?.hide();
+  el.onHide?.();
 }
 $$('[data-close]').forEach((b) => b.addEventListener('click', hideSheet));
 tg?.BackButton?.onClick(hideSheet);
@@ -418,6 +555,8 @@ async function loadStats() {
   const rate = s.today_sent ? Math.round((s.today_answered / s.today_sent) * 100) : 0;
   const qs = Object.entries(s.questions || {}).sort((a, b) => b[1] - a[1]);
   const lowQ = qs.filter(([, v]) => v < 30).map(([k]) => k);
+  const pq = Object.entries(s.questions_pro || {}).sort((a, b) => b[1] - a[1]);
+  const proTotal = pq.reduce((n, [, v]) => n + v, 0);
   el.innerHTML = `
     <div class="kpis">
       <div class="kpi"><b class="num">${fmt(s.users)}</b><span>botdagi odamlar</span></div>
@@ -437,46 +576,79 @@ async function loadStats() {
       <div class="block"><h2>Qayerdan kelishdi</h2>${bars((s.sources || []).map((x) => [SRC[x.source] || x.source || '—', x.n]), Math.max(1, ...(s.sources || []).map((x) => x.n)))}</div>
       <div class="block"><h2>O‘quvchilar tanlagan fanlar</h2>${bars((s.subjects || []).map((x) => [x.subject, x.n]), Math.max(1, ...(s.subjects || []).map((x) => x.n)))}</div>
     </div>
-    <div class="block"><h2>Savollar bazasi</h2>
-      ${lowQ.length ? `<div class="wrn">Har fanga kamida 30 ta savol bo‘lsa, bot bir oy takrorlamasdan ishlaydi. Kam: ${lowQ.map(esc).join(', ')}.</div>` : ''}
-      ${bars(qs, Math.max(30, ...qs.map(([, v]) => v)), 30)}</div>`;
+    <div class="two">
+      <div class="block"><h2>Kun savollari · bot</h2>
+        ${lowQ.length ? `<div class="wrn">Har fanga kamida 30 ta savol bo‘lsa, bot bir oy takrorlamasdan ishlaydi. Kam: ${lowQ.map(esc).join(', ')}.</div>` : ''}
+        ${bars(qs, Math.max(30, ...qs.map(([, v]) => v)), 30)}</div>
+      <div class="block"><h2>Pro savollar · platforma <span class="muted num" style="font-weight:500">${fmt(proTotal)}</span></h2>
+        ${pq.length ? bars(pq, Math.max(1, ...pq.map(([, v]) => v))) : '<p class="muted">Hali Pro savol yo‘q. Savollar bo‘limida “Pro savollar” ni tanlab qo‘shing.</p>'}</div>
+    </div>`;
 }
 
 // ---------- savollar ----------
-const QS = { subject: '', search: '', status: 'all', offset: 0, rows: [], total: 0, counts: {} };
+const LVL = { 1: 'Oson', 2: 'O‘rta', 3: 'Qiyin' };
+const POOL_NOTE = {
+  daily: 'Bot har kuni shu bazadan bitta savol yuboradi. Faqat variantli test, rasmsiz.',
+  pro: 'Platformadagi testlar uchun. Bot bu savollarni hech qachon yubormaydi. Yozma javob, rasm va qiyinlik darajasi bor.',
+};
+const QS = { pool: 'daily', subject: '', search: '', status: 'all', difficulty: '', offset: 0, rows: [], total: 0, counts: {}, pools: null };
+try { if (sessionStorage.getItem('pool') === 'pro') QS.pool = 'pro'; } catch {}
+const lvlMark = (d) => (d ? `<span class="lvl l${d}">${LVL[d]}</span>` : '');
+function setPool(pool) {
+  QS.pool = pool; QS.subject = ''; QS.difficulty = '';
+  try { sessionStorage.setItem('pool', pool); } catch {}
+  $$('#qPools [data-pool]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.pool === pool)));
+  $('#qPoolNote').textContent = POOL_NOTE[pool];
+  $('#qStatus').options[1].textContent = pool === 'pro' ? 'Faol' : 'Botda bor';
+  $('#qDiff').hidden = pool !== 'pro'; $('#qDiff').value = '';
+  $('#qAddBtn').textContent = pool === 'pro' ? 'Pro savol qo‘shish' : 'Savol qo‘shish';
+}
 function renderSubjectChips() {
   const all = Object.values(QS.counts).reduce((a, b) => a + b, 0);
   $('#qSubjects').innerHTML = [['', 'Hammasi', all], ...ME.subjects.map((s) => [s, s, QS.counts[s] || 0])]
     .map(([v, l, n]) => `<button class="chip" data-s="${esc(v)}" aria-pressed="${QS.subject === v}">${esc(l)}<small class="num">${n}</small></button>`).join('');
+  if (QS.pools) { $('#nDaily').textContent = fmt(QS.pools.daily); $('#nPro').textContent = fmt(QS.pools.pro); }
 }
+$('#qPools').addEventListener('click', (e) => { const b = e.target.closest('[data-pool]'); if (!b || b.dataset.pool === QS.pool) return; setPool(b.dataset.pool); loadQuestions(true); });
 $('#qSubjects').addEventListener('click', (e) => { const b = e.target.closest('[data-s]'); if (!b) return; QS.subject = b.dataset.s; loadQuestions(true); });
 let qTimer; $('#qSearch').addEventListener('input', (e) => { clearTimeout(qTimer); qTimer = setTimeout(() => { QS.search = e.target.value.trim(); loadQuestions(true); }, 300); });
 $('#qStatus').addEventListener('change', (e) => { QS.status = e.target.value; loadQuestions(true); });
+$('#qDiff').addEventListener('change', (e) => { QS.difficulty = e.target.value; loadQuestions(true); });
 $('#qMore').addEventListener('click', () => loadQuestions(false));
 
+let qSeq = 0;
 async function loadQuestions(reset) {
   if (reset) { QS.offset = 0; QS.rows = []; $('#qList').innerHTML = '<p class="spin">Yuklanmoqda…</p>'; }
-  const r = await call('q.list', { subject: QS.subject, search: QS.search, status: QS.status, offset: QS.offset, limit: 50 });
+  const seq = ++qSeq;
+  const r = await call('q.list', { pool: QS.pool, subject: QS.subject, search: QS.search, status: QS.status, difficulty: QS.difficulty, offset: QS.offset, limit: 50 });
+  if (seq !== qSeq) return; // a newer request (another filter) is on its way
   if (!r.ok) { $('#qList').innerHTML = `<div class="err">${esc(r.error)}</div>`; return; }
-  QS.rows = QS.rows.concat(r.data.rows); QS.total = r.data.total; QS.counts = r.data.by_subject || {}; QS.offset = QS.rows.length;
+  QS.rows = QS.rows.concat(r.data.rows); QS.total = r.data.total; QS.counts = r.data.by_subject || {}; QS.pools = r.data.pools || QS.pools; QS.offset = QS.rows.length;
   renderSubjectChips(); renderQuestions();
 }
 function renderQuestions() {
+  const pro = QS.pool === 'pro';
   $('#qCount').textContent = QS.total ? `${fmt(QS.total)} ta savol` : '';
   $('#qMore').hidden = QS.rows.length >= QS.total;
   if (!QS.rows.length) {
-    $('#qList').innerHTML = `<div class="empty">${QS.search || QS.subject || QS.status !== 'all' ? 'Bu filtrga mos savol yo‘q.' : 'Hali savol yo‘q.'}<br><br><button class="btn" data-add>Birinchi savolni qo‘shish</button></div>`;
+    const filtered = QS.search || QS.subject || QS.status !== 'all' || QS.difficulty;
+    $('#qList').innerHTML = `<div class="empty">${filtered ? 'Bu filtrga mos savol yo‘q.' : pro ? 'Hali Pro savol yo‘q. Bitta-bitta qo‘shing yoki Excel’dan yuklang.' : 'Hali savol yo‘q.'}<br><br><button class="btn" data-add>${pro ? 'Birinchi Pro savolni qo‘shish' : 'Birinchi savolni qo‘shish'}</button></div>`;
     return;
   }
   $('#qList').innerHTML = QS.rows.map((q) => {
     const rate = q.answered ? Math.round((q.right / q.answered) * 100) + '% to‘g‘ri' : 'hali javob yo‘q';
+    const stat = q.pool === 'pro' ? '' : `<span class="num">yuborildi ${fmt(q.sent)} · ${rate}</span>`;
+    const answer = q.qtype === 'written'
+      ? `<div class="answers"><span>Javob:</span>${(q.answers || []).map((a) => `<span class="achip">${esc(a)}</span>`).join('')}</div>`
+      : `<ol>${q.options.map((o, i) => `<li class="${i === q.correct ? 'ok' : ''}">${LETTERS[i]}) ${esc(o)}</li>`).join('')}</ol>`;
     return `<article class="q ${q.active ? '' : 'off'}" data-id="${q.id}">
-      <div class="meta"><b style="color:var(--ink)">${esc(q.subject)}</b>${q.topic ? `<span>${esc(q.topic)}</span>` : ''}<span class="num">yuborildi ${fmt(q.sent)} · ${rate}</span>${q.active ? '' : '<span>yashirilgan</span>'}</div>
+      <div class="meta"><b style="color:var(--ink)">${esc(q.subject)}</b>${q.topic ? `<span>${esc(q.topic)}</span>` : ''}${lvlMark(q.difficulty)}${q.qtype === 'written' ? '<span class="kind">yozma javob</span>' : ''}${stat}${q.active ? '' : '<span>yashirilgan</span>'}</div>
+      ${q.image_url ? `<img class="thumb" src="${esc(q.image_url)}" alt="Savol rasmi" loading="lazy">` : ''}
       <p class="body">${esc(q.body)}</p>
-      <ol>${q.options.map((o, i) => `<li class="${i === q.correct ? 'ok' : ''}">${LETTERS[i]}) ${esc(o)}</li>`).join('')}</ol>
+      ${answer}
       <div class="acts">
         <button class="btn ghost sm" data-edit>Tahrirlash</button>
-        <button class="btn link sm" data-toggle>${q.active ? 'Yashirish' : 'Botga qaytarish'}</button>
+        <button class="btn link sm" data-toggle>${q.active ? 'Yashirish' : q.pool === 'pro' ? 'Qayta yoqish' : 'Botga qaytarish'}</button>
         ${q.sent ? '' : '<button class="btn danger sm" data-del>O‘chirish</button>'}
       </div></article>`;
   }).join('');
@@ -488,7 +660,10 @@ $('#qList').addEventListener('click', async (e) => {
   if (e.target.closest('[data-edit]')) openQuestion(q);
   if (e.target.closest('[data-toggle]')) {
     const r = await call('q.toggle', { id: q.id, active: !q.active });
-    if (r.ok) { q.active = !q.active; renderQuestions(); toast(q.active ? 'Savol botga qaytarildi' : 'Savol yashirildi — bot uni boshqa yubormaydi'); }
+    if (r.ok) {
+      q.active = !q.active; renderQuestions();
+      toast(q.pool === 'pro' ? (q.active ? 'Savol qayta yoqildi' : 'Savol yashirildi') : (q.active ? 'Savol botga qaytarildi' : 'Savol yashirildi — bot uni boshqa yubormaydi'));
+    }
   }
   if (e.target.closest('[data-del]')) {
     if (!(await confirmBox('Savolni butunlay o‘chirasizmi?'))) return;
@@ -497,6 +672,7 @@ $('#qList').addEventListener('click', async (e) => {
   }
 });
 
+// ---------- savol muharriri ----------
 let editing = null;
 function optRow(v, i, correct) {
   return `<div class="opt ${i === correct ? 'ok' : ''}" data-i="${i}">
@@ -506,24 +682,68 @@ function optRow(v, i, correct) {
 }
 function qState() {
   const f = $('#qForm');
-  return { id: editing?.id, subject: f.subject.value, topic: f.topic.value.trim(), body: f.body.value.trim(),
-    options: $$('#qOpts .opt input').map((i) => i.value.trim()), correct: editing.correct, explanation: f.explanation.value.trim(), active: f.active.checked };
+  const pro = editing.pool === 'pro';
+  const written = pro && editing.qtype === 'written';
+  return {
+    id: editing.id, pool: editing.pool, qtype: written ? 'written' : 'choice',
+    subject: f.subject.value, topic: f.topic.value.trim(), body: f.body.value.trim(),
+    options: written ? [] : $$('#qOpts .opt input').map((i) => i.value.trim()), correct: written ? null : editing.correct,
+    answers: written ? editing.answers.slice() : null, difficulty: pro ? editing.difficulty : null, image: pro ? editing.image : null,
+    explanation: f.explanation.value.trim(), active: f.active.checked,
+  };
 }
 function renderOpts(values) {
   $('#qOpts').innerHTML = values.map((v, i) => optRow(v, i, editing.correct)).join('');
   $('#qAddOpt').hidden = values.length >= 5;
   $$('#qOpts .rm').forEach((b) => { b.style.visibility = values.length > 2 ? '' : 'hidden'; });
 }
+const pressed = (sel, v) => $$(sel + ' > button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === String(v))));
+function renderMode() {
+  const pro = editing.pool === 'pro', written = pro && editing.qtype === 'written';
+  const locked = editing.pool === 'daily' && editing.sent > 0;
+  pressed('#qPoolSeg', editing.pool); pressed('#qTypeSeg', editing.qtype); pressed('#qDiffSeg', editing.difficulty);
+  $('#qPoolSeg [data-v="pro"]').disabled = locked;
+  $('#qPoolHint').textContent = locked ? 'Bu savol botda o‘quvchilarga yuborilgan — uni Pro’ga o‘tkazib bo‘lmaydi.' : POOL_NOTE[editing.pool];
+  $('#qProOnly').hidden = !pro; $('#qImgBox').hidden = !pro;
+  $('#qChoiceBox').hidden = written; $('#qWrittenBox').hidden = !written;
+  $('#qActiveLbl').textContent = pro ? 'Platformada ishlatilsin' : 'Botda ishlatilsin';
+  if (!editing.id) $('#qSheetTitle').textContent = pro ? 'Yangi Pro savol' : 'Yangi kun savoli';
+  renderAnswers(); renderDrop(); qPreview();
+}
+function renderAnswers() {
+  $('#qAnswers').innerHTML = editing.answers.length
+    ? editing.answers.map((a, i) => `<span class="achip">${esc(a)}<button type="button" data-rm="${i}" aria-label="${esc(a)} — olib tashlash">×</button></span>`).join('')
+    : '<span class="muted">Hali javob qo‘shilmagan</span>';
+}
+function addAnswer() {
+  const inp = $('#qAnsInput'), v = inp.value.trim(); if (!v) return;
+  if (!editing.answers.includes(v)) {
+    if (editing.answers.length >= 10) return toast('Ko‘pi bilan 10 ta javob');
+    editing.answers.push(v);
+  }
+  inp.value = ''; inp.focus(); renderAnswers(); qPreview();
+}
+$('#qAnsAdd').addEventListener('click', addAnswer);
+$('#qAnsInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addAnswer(); } });
+$('#qAnswers').addEventListener('click', (e) => { const b = e.target.closest('[data-rm]'); if (b) { editing.answers.splice(+b.dataset.rm, 1); renderAnswers(); qPreview(); } });
+$('#qPoolSeg').addEventListener('click', (e) => { const b = e.target.closest('[data-v]'); if (b && !b.disabled) { editing.pool = b.dataset.v; renderMode(); } });
+$('#qTypeSeg').addEventListener('click', (e) => { const b = e.target.closest('[data-v]'); if (b) { editing.qtype = b.dataset.v; renderMode(); } });
+$('#qDiffSeg').addEventListener('click', (e) => { const b = e.target.closest('[data-v]'); if (b) { editing.difficulty = +b.dataset.v; renderMode(); } });
+
 function openQuestion(q) {
-  editing = q ? { ...q } : { correct: -1 };
+  editing = q
+    ? { ...q, answers: (q.answers || []).slice(), temps: [] }
+    : { pool: QS.pool, qtype: 'choice', difficulty: null, correct: -1, answers: [], image: null, image_url: null, sent: 0, temps: [] };
+  if (editing.correct == null) editing.correct = -1;
   const f = $('#qForm');
   f.subject.innerHTML = '<option value="">Fanni tanlang</option>' + ME.subjects.map((s) => `<option>${esc(s)}</option>`).join('');
   f.subject.value = q?.subject || QS.subject || '';
   f.topic.value = q?.topic || ''; f.body.value = q?.body || ''; f.explanation.value = q?.explanation || ''; f.active.checked = q ? q.active : true;
-  renderOpts(q ? q.options : ['', '', '', '']);
-  $('#qSheetTitle').textContent = q ? 'Savolni tahrirlash' : 'Yangi savol';
+  $('#qAnsInput').value = '';
+  renderOpts(q && q.qtype !== 'written' ? q.options : ['', '', '', '']);
+  $('#qSheetTitle').textContent = q ? 'Savolni tahrirlash' : editing.pool === 'pro' ? 'Yangi Pro savol' : 'Yangi kun savoli';
   $('#qFootNote').textContent = q?.sent ? `Bu savol ${q.sent} kishiga yuborilgan. O‘zgarish keyingi yuborishlarda ko‘rinadi.` : '';
-  $('#qErr').innerHTML = ''; showSheet($('#qSheet')); qPreview();
+  $('#qErr').innerHTML = ''; showSheet($('#qSheet')); renderMode();
 }
 $('#qOpts').addEventListener('click', (e) => {
   const row = e.target.closest('.opt'); if (!row) return;
@@ -537,39 +757,129 @@ $('#qOpts').addEventListener('click', (e) => {
   }
 });
 $('#qAddOpt').addEventListener('click', () => { const vals = $$('#qOpts .opt input').map((i) => i.value); if (vals.length < 5) { vals.push(''); renderOpts(vals); $$('#qOpts .opt input').at(-1).focus(); } });
-$('#qForm').addEventListener('input', qPreview);
+$('#qForm').addEventListener('input', (e) => { if (e.target.id !== 'qAnsInput') qPreview(); });
+
+// ---------- savol rasmi ----------
+// Large photos are scaled down in the browser (longest side 1600 px) before upload; drawings stay PNG.
+async function prepImage(file) {
+  if (!/^image\/(jpeg|png|webp)$/.test(file.type)) throw new Error('JPG, PNG yoki WebP rasm tanlang');
+  const src = URL.createObjectURL(file);
+  try {
+    const img = await new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = () => no(new Error('Rasm ochilmadi — boshqa fayl tanlang')); i.src = src; });
+    const k = Math.min(1, 1600 / Math.max(img.naturalWidth, img.naturalHeight));
+    if (k === 1 && file.size <= 1_000_000) return file;
+    const draw = (type, q) => new Promise((ok) => {
+      const c = document.createElement('canvas'); c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+      const ctx = c.getContext('2d');
+      if (type === 'image/jpeg') { ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height); }
+      ctx.drawImage(img, 0, 0, c.width, c.height); c.toBlob(ok, type, q);
+    });
+    let blob = await draw(file.type === 'image/png' ? 'image/png' : 'image/jpeg', 0.86);
+    if (!blob || blob.size > 1_400_000) blob = await draw('image/jpeg', 0.8);
+    if (!blob || blob.size > 1_450_000) throw new Error('Rasm juda katta — kichikroq rasm tanlang');
+    return blob;
+  } finally { URL.revokeObjectURL(src); }
+}
+const toB64 = (blob) => new Promise((ok, no) => { const r = new FileReader(); r.onload = () => ok(String(r.result).split(',')[1]); r.onerror = () => no(new Error('Rasm o‘qilmadi')); r.readAsDataURL(blob); });
+let uploading = false;
+function renderDrop() {
+  const d = $('#qDrop');
+  if (uploading) { d.innerHTML = '<p>Rasm yuklanmoqda…</p>'; return; }
+  d.innerHTML = editing.image
+    ? `<img src="${esc(editing.image_url || '')}" alt="Savol rasmi"><div class="acts"><button type="button" class="btn ghost sm" data-img="pick">Almashtirish</button><button type="button" class="btn danger sm" data-img="clear">Olib tashlash</button></div>`
+    : `<p style="margin-bottom:10px"><b>Rasmni shu yerga torting</b> yoki nusxasini qo‘ying (Ctrl+V)</p><button type="button" class="btn ghost sm" data-img="pick">Rasm tanlash</button><p class="hintline">JPG, PNG yoki WebP. Katta rasm avtomatik kichraytiriladi.</p>`;
+}
+async function uploadImage(file) {
+  if (!file || editing?.pool !== 'pro' || uploading) return;
+  uploading = true; renderDrop();
+  try {
+    const data = await toB64(await prepImage(file));
+    const r = await call('img.upload', { data });
+    if (!r.ok) throw new Error(r.error);
+    editing.temps.push(r.data.path); editing.image = r.data.path; editing.image_url = r.data.url;
+  } catch (e) { toast(e.message || 'Rasm yuklanmadi'); }
+  uploading = false; renderDrop(); qPreview();
+}
+$('#qDrop').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-img]'); if (!b) return;
+  if (b.dataset.img === 'pick') $('#qImgFile').click();
+  if (b.dataset.img === 'clear') { editing.image = null; editing.image_url = null; renderDrop(); qPreview(); }
+});
+$('#qImgFile').addEventListener('change', (e) => { uploadImage(e.target.files[0]); e.target.value = ''; });
+$('#qDrop').addEventListener('dragover', (e) => { e.preventDefault(); $('#qDrop').classList.add('over'); });
+$('#qDrop').addEventListener('dragleave', () => $('#qDrop').classList.remove('over'));
+$('#qDrop').addEventListener('drop', (e) => { e.preventDefault(); $('#qDrop').classList.remove('over'); uploadImage(e.dataTransfer.files[0]); });
+document.addEventListener('paste', (e) => {
+  if (openSheet !== $('#qSheet') || editing?.pool !== 'pro') return;
+  const f = [...(e.clipboardData?.files || [])].find((x) => x.type.startsWith('image/'));
+  if (f) { e.preventDefault(); uploadImage(f); }
+});
+// Images uploaded in this editor but not kept are removed from storage.
+$('#qSheet').onHide = () => {
+  if (!editing) return;
+  const keepPath = editing.savedImage;
+  editing.temps.filter((p) => p !== keepPath).forEach((p) => call('img.discard', { path: p }).catch(() => {}));
+  editing.temps = [];
+};
+
 function qPreview() {
   const s = qState();
+  const box = $('#qPreview');
+  if (s.pool === 'pro') {
+    box.className = 'pcard';
+    const right = s.qtype === 'written'
+      ? `<div class="pin">Javobingizni yozing</div><div class="answers" style="margin:8px 0 0"><span>To‘g‘ri deb qabul qilinadi:</span>${s.answers.length ? s.answers.map((a) => `<span class="achip">${esc(a)}</span>`).join('') : '<span class="muted">— javob qo‘shilmagan —</span>'}</div>`
+      : s.options.map((o, i) => `<div class="po ${i === s.correct ? 'ok' : ''}"><b>${LETTERS[i]}</b><span>${esc(o || '…')}</span></div>`).join('');
+    box.innerHTML = `<p class="cap">Savolni tekshirish uchun ko‘rinish. Platformadagi dizayn alohida bo‘ladi.</p>
+      <div class="pmeta"><b>${esc(s.subject || 'Fan')}</b>${s.topic ? `<span>${esc(s.topic)}</span>` : ''}${lvlMark(s.difficulty) || '<span>daraja tanlanmagan</span>'}</div>
+      ${editing.image_url && s.image ? `<img src="${esc(editing.image_url)}" alt="">` : ''}
+      <div class="pbody">${esc(s.body || 'Savol matni shu yerda ko‘rinadi')}</div>
+      ${right}
+      <div class="psol"><b>Yechim.</b> ${esc(s.explanation || 'Yechim shu yerda ko‘rinadi')}</div>`;
+    return;
+  }
+  box.className = 'chat';
   const head = `<b>Kun savoli</b> · ${esc(s.subject || 'Fan')}${s.topic ? ' · ' + esc(s.topic) : ''}\n<i>${dayLabel(todayIso())}</i>`;
   const q = `${head}\n\n${esc(s.body || 'Savol matni shu yerda ko‘rinadi')}\n\n${s.options.map((o, i) => `${LETTERS[i]}) ${esc(o || '…')}`).join('\n')}`;
   const right = s.correct >= 0 ? `${LETTERS[s.correct]}) ${esc(s.options[s.correct] || '…')}` : '— to‘g‘ri javob belgilanmagan —';
   const res = `✅ <b>To‘g‘ri!</b> ${right}\n\n<b>Yechim.</b> ${esc(s.explanation || 'Yechim shu yerda ko‘rinadi')}`;
-  $('#qPreview').innerHTML = `<p class="cap">O‘quvchi shunday ko‘radi</p>
+  box.innerHTML = `<p class="cap">O‘quvchi shunday ko‘radi</p>
     <div class="msg">${q}</div>
     <div class="kbd"><div>${s.options.map((_, i) => `<span>${LETTERS[i]}</span>`).join('')}</div></div>
     <p class="cap" style="margin-top:14px">To‘g‘ri javob bosilgandan keyin</p>
     <div class="msg">${res}</div>`;
 }
 $('#qSave').addEventListener('click', async () => {
+  if (uploading) return toast('Rasm yuklanishini kuting');
   const s = qState();
   const errs = [];
   if (!s.subject) errs.push('Fanni tanlang');
+  if (s.pool === 'pro' && !s.difficulty) errs.push('Qiyinlik darajasini tanlang');
   if (!s.body) errs.push('Savol matnini yozing');
-  if (s.options.some((o) => !o)) errs.push('Bo‘sh variant qolmasin');
-  if (s.correct < 0) errs.push('To‘g‘ri javobning harfini bosing');
+  if (s.qtype === 'written') {
+    if (!s.answers.length) errs.push($('#qAnsInput').value.trim() ? 'Yozgan javobingizni “Qo‘shish” bilan qo‘shing' : 'To‘g‘ri javobni yozing');
+  } else {
+    if (s.options.some((o) => !o)) errs.push('Bo‘sh variant qolmasin');
+    if (s.correct < 0) errs.push('To‘g‘ri javobning harfini bosing');
+  }
   if (!s.explanation) errs.push('Yechimni yozing');
   if (errs.length) { errBox($('#qErr'), errs); $('#qSheet').scrollTop = 0; haptic('error'); return; }
   $('#qSave').disabled = true;
   const r = await call('q.save', s).finally(() => { $('#qSave').disabled = false; });
   if (!r.ok) { errBox($('#qErr'), r.errors || [r.error]); $('#qSheet').scrollTop = 0; haptic('error'); return; }
-  haptic('success'); hideSheet(); toast(s.id ? 'Savol saqlandi' : 'Savol qo‘shildi');
-  loadQuestions(true);
+  editing.savedImage = s.image;
+  haptic('success'); hideSheet(); toast(s.id ? 'Savol saqlandi' : s.pool === 'pro' ? 'Pro savol qo‘shildi' : 'Savol qo‘shildi');
+  if (s.pool !== QS.pool) setPool(s.pool);
+  loadQuestions(true); loaded.stats = false;
 });
 $('#qAddBtn').addEventListener('click', () => openQuestion(null));
 
 // ---------- import ----------
 const ALIAS = { subject: 'subject', fan: 'subject', topic: 'topic', mavzu: 'topic', body: 'body', question: 'body', savol: 'body',
-  a: 'a', b: 'b', c: 'c', d: 'd', e: 'e', correct: 'correct', javob: 'correct', answer: 'correct', explanation: 'explanation', yechim: 'explanation', izoh: 'explanation' };
+  a: 'a', b: 'b', c: 'c', d: 'd', e: 'e', correct: 'correct', javob: 'correct', answer: 'correct', explanation: 'explanation', yechim: 'explanation', izoh: 'explanation',
+  daraja: 'difficulty', qiyinlik: 'difficulty', difficulty: 'difficulty', level: 'difficulty' };
+const LEVEL_WORDS = { 1: 1, 2: 2, 3: 3, oson: 1, orta: 2, qiyin: 3 };
+const levelOf = (v) => LEVEL_WORDS[String(v).toLowerCase().replace(/[‘’ʻ'`]/g, '').trim()] || null;
 function parseTable(text) {
   text = text.replace(/^﻿/, '');
   const first = text.split('\n')[0];
@@ -587,47 +897,88 @@ function parseTable(text) {
   row.push(field); if (row.some((x) => x.trim())) rows.push(row);
   return rows;
 }
-let importRows = [];
+let importRows = [], IPOOL = 'daily';
+function setImportPool(pool) {
+  IPOOL = pool; pressed('#iPoolSeg', pool);
+  const pro = pool === 'pro';
+  const head = ['fan', 'mavzu', ...(pro ? ['daraja'] : []), 'savol', 'a', 'b', 'c', 'd', 'javob', 'yechim'];
+  const ex1 = ['Matematika', 'Foizlar', ...(pro ? ['1'] : []), '40 000 ning 15% i?', '6 000', '4 000', '600', '60', 'A', '40 000 · 0,15 = 6 000'];
+  const ex2 = ['Matematika', 'Tenglama', '2', '3y − 5 = 16. y ni toping.', '', '', '', '', '7 | y = 7', '3y = 21, y = 7'];
+  $('#iSample').innerHTML = `<table class="ses" style="margin-bottom:12px"><tr>${head.map((h) => `<th>${h}</th>`).join('')}</tr>
+    <tr>${ex1.map((v) => `<td>${esc(v)}</td>`).join('')}</tr>${pro ? `<tr>${ex2.map((v) => `<td>${esc(v) || '<span class="muted">—</span>'}</td>`).join('')}</tr>` : ''}</table>`;
+  $('#iHelp').innerHTML = pro
+    ? '<p>“daraja”: 1 — oson, 2 — o‘rta, 3 — qiyin. Variantli savolda “javob” ga A–E harfini yozing.</p><p style="margin-top:6px">Yozma javobli savolda a–e ni bo‘sh qoldiring, “javob” ga to‘g‘ri javobni yozing; bir nechta yozilishi bo‘lsa, | bilan ajrating. Rasmni keyin savolni tahrirlab qo‘shasiz.</p>'
+    : '<p>Jadvalni belgilab nusxa oling va pastga qo‘ying — yoki CSV faylni tanlang. “javob” ustuniga A, B, C, D yoki E yozing.</p>';
+  if ($('#iPaste').value.trim()) checkImport($('#iPaste').value);
+}
+$('#iPoolSeg').addEventListener('click', (e) => { const b = e.target.closest('[data-v]'); if (b) setImportPool(b.dataset.v); });
 function checkImport(text) {
+  const pro = IPOOL === 'pro';
   const rows = parseTable(text);
   importRows = []; const errors = [];
-  if (rows.length < 2) { $('#iResult').innerHTML = '<div class="err">Sarlavha va kamida bitta savol qatori kerak.</div>'; $('#iGo').disabled = true; return; }
+  const fail = (m) => { $('#iResult').innerHTML = `<div class="err">${m}</div>`; $('#iGo').disabled = true; $('#iGo').textContent = 'Yuklash'; };
+  if (rows.length < 2) return fail('Sarlavha va kamida bitta savol qatori kerak.');
   const head = rows[0].map((h) => ALIAS[h.trim().toLowerCase()] || '');
-  const miss = ['subject', 'body', 'a', 'b', 'correct', 'explanation'].filter((k) => !head.includes(k));
-  if (miss.length) { $('#iResult').innerHTML = `<div class="err">Sarlavhada ustun yo‘q: ${miss.join(', ')}. Birinchi qator: fan, mavzu, savol, a, b, c, d, javob, yechim.</div>`; $('#iGo').disabled = true; return; }
+  const need = pro ? ['subject', 'difficulty', 'body', 'correct', 'explanation'] : ['subject', 'body', 'a', 'b', 'correct', 'explanation'];
+  const miss = need.filter((k) => !head.includes(k));
+  const UZ = { subject: 'fan', difficulty: 'daraja', body: 'savol', a: 'a', b: 'b', correct: 'javob', explanation: 'yechim' };
+  if (miss.length) return fail(`Sarlavhada ustun yo‘q: ${miss.map((k) => UZ[k]).join(', ')}. Namunadagi birinchi qatorni ko‘chiring.`);
   const col = (r, k) => (head.indexOf(k) >= 0 ? (r[head.indexOf(k)] || '').trim() : '');
   rows.slice(1).forEach((r, i) => {
     const line = i + 2;
     const subject = ME.subjects.find((s) => s.toLowerCase() === col(r, 'subject').toLowerCase());
     const options = ['a', 'b', 'c', 'd', 'e'].map((k) => col(r, k)).filter(Boolean);
-    const correct = LETTERS.indexOf(col(r, 'correct').toUpperCase());
     const e = [];
+    const row = { _line: line, subject, topic: col(r, 'topic'), body: col(r, 'body'), explanation: col(r, 'explanation') };
     if (!subject) e.push(`fan “${col(r, 'subject')}” noma’lum`);
-    if (!col(r, 'body')) e.push('savol yo‘q');
-    if (options.length < 2) e.push('kamida 2 variant');
-    if (correct < 0 || correct >= options.length) e.push('javob harfi noto‘g‘ri');
-    if (!col(r, 'explanation')) e.push('yechim yo‘q');
-    if (e.length) errors.push(`${line}-qator: ${e.join(', ')}`);
-    else importRows.push({ _line: line, subject, topic: col(r, 'topic'), body: col(r, 'body'), options, correct, explanation: col(r, 'explanation') });
+    if (!row.body) e.push('savol yo‘q');
+    if (pro) {
+      row.difficulty = levelOf(col(r, 'difficulty'));
+      if (!row.difficulty) e.push('daraja 1, 2 yoki 3 bo‘lsin');
+    }
+    if (pro && !options.length) {
+      row.qtype = 'written';
+      row.answers = [...new Set(col(r, 'correct').split('|').map((x) => x.trim()).filter(Boolean))];
+      if (!row.answers.length) e.push('javob yo‘q');
+    } else {
+      row.qtype = 'choice'; row.options = options;
+      row.correct = LETTERS.indexOf(col(r, 'correct').toUpperCase());
+      if (options.length < 2) e.push('kamida 2 variant');
+      if (row.correct < 0 || row.correct >= options.length) e.push('javob harfi noto‘g‘ri');
+    }
+    if (!row.explanation) e.push('yechim yo‘q');
+    if (e.length) errors.push(`${line}-qator: ${e.join(', ')}`); else importRows.push(row);
   });
-  const preview = importRows.slice(0, 5).map((q) => `<tr><td>${esc(q.subject)}</td><td>${esc(q.body.slice(0, 80))}</td><td>${LETTERS[q.correct]}) ${esc(q.options[q.correct])}</td></tr>`).join('');
+  const ans = (q) => (q.qtype === 'written' ? q.answers.map(esc).join(' | ') : `${LETTERS[q.correct]}) ${esc(q.options[q.correct])}`);
+  const preview = importRows.slice(0, 5).map((q) => `<tr><td>${esc(q.subject)}</td>${pro ? `<td>${lvlMark(q.difficulty)}</td>` : ''}<td>${esc(q.body.slice(0, 80))}</td><td>${ans(q)}</td></tr>`).join('');
   $('#iResult').innerHTML = (errors.length ? `<div class="wrn">${errors.length} ta qator o‘tkazib yuboriladi:<ul>${errors.slice(0, 20).map((x) => `<li>${esc(x)}</li>`).join('')}${errors.length > 20 ? '<li>…</li>' : ''}</ul></div>` : '') +
-    (importRows.length ? `<div class="block"><h2 style="margin-bottom:8px">${importRows.length} ta savol tayyor</h2><div class="scroll-x"><table class="ses"><tr><th>Fan</th><th>Savol</th><th>To‘g‘ri javob</th></tr>${preview}</table></div>${importRows.length > 5 ? `<p class="muted" style="margin-top:8px;font-size:14px">va yana ${importRows.length - 5} ta</p>` : ''}</div>` : '');
+    (importRows.length ? `<div class="block"><h2 style="margin-bottom:8px">${importRows.length} ta savol tayyor · ${pro ? 'Pro savollarga' : 'kun savollariga'}</h2><div class="scroll-x"><table class="ses"><tr><th>Fan</th>${pro ? '<th>Daraja</th>' : ''}<th>Savol</th><th>To‘g‘ri javob</th></tr>${preview}</table></div>${importRows.length > 5 ? `<p class="muted" style="margin-top:8px;font-size:14px">va yana ${importRows.length - 5} ta</p>` : ''}</div>` : '');
   $('#iGo').disabled = !importRows.length;
   $('#iGo').textContent = importRows.length ? `${importRows.length} ta savolni yuklash` : 'Yuklash';
-  $('#iNote').textContent = 'Bir xil savol qayta yuklansa, eskisi yangilanadi.';
+  $('#iNote').textContent = 'Shu bo‘limda bor savol qayta yuklansa, yangilanadi. Boshqa bo‘limda bor bo‘lsa, o‘tkazib yuboriladi.';
 }
-$('#qImportBtn').addEventListener('click', () => { $('#iPaste').value = ''; $('#iResult').innerHTML = ''; $('#iGo').disabled = true; $('#iGo').textContent = 'Yuklash'; showSheet($('#iSheet')); });
+$('#qImportBtn').addEventListener('click', () => {
+  $('#iPaste').value = ''; $('#iResult').innerHTML = ''; $('#iGo').disabled = true; $('#iGo').textContent = 'Yuklash'; $('#iNote').textContent = '';
+  setImportPool(QS.pool); showSheet($('#iSheet'));
+});
 $('#iCheck').addEventListener('click', () => checkImport($('#iPaste').value));
 $('#iPaste').addEventListener('paste', () => setTimeout(() => checkImport($('#iPaste').value), 0));
 $('#iFile').addEventListener('change', async (e) => { const f = e.target.files[0]; if (!f) return; const t = await f.text(); $('#iPaste').value = t; checkImport(t); });
 $('#iGo').addEventListener('click', async () => {
   $('#iGo').disabled = true;
-  const r = await call('q.import', { rows: importRows });
+  const r = await call('q.import', { pool: IPOOL, rows: importRows });
   if (!r.ok) { toast(r.error); $('#iGo').disabled = false; return; }
-  haptic('success'); hideSheet();
-  toast(`Yuklandi: ${r.data.inserted} ta yangi, ${r.data.updated} ta yangilandi`);
+  haptic('success');
+  const d = r.data, summary = `Yuklandi: ${d.inserted} ta yangi, ${d.updated} ta yangilandi`;
+  if (IPOOL !== QS.pool) setPool(IPOOL);
   loadQuestions(true); loaded.stats = false;
+  if (d.errors?.length) {
+    // keep the sheet open so the skipped rows can be read
+    $('#iResult').innerHTML = `<div class="block"><h2>${summary}</h2></div><div class="wrn">${d.errors.length} ta qator o‘tkazib yuborildi:<ul>${d.errors.slice(0, 30).map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div>`;
+    importRows = []; $('#iGo').textContent = 'Yuklandi'; $('#iNote').textContent = '';
+    return;
+  }
+  hideSheet(); toast(summary);
 });
 
 // ---------- bot matnlari ----------
@@ -755,16 +1106,48 @@ $('#sDel').addEventListener('click', async () => {
 });
 
 // ---------- start ----------
-function showGate(msg) { $('#app').hidden = true; $('#gate').hidden = false; if (msg) $('#gateMsg').textContent = msg; }
+const GATE_WEB = 'Kirish uchun Telegram’da @mentaliss_bot ga /admin yozing va “Brauzerda ochish” tugmasini bosing — yoki xabardagi havolani shu brauzerga qo‘ying. Havola 10 daqiqa ishlaydi, bu brauzer sizni 30 kun eslab qoladi.';
+function showGate(msg, title = 'Mentalis admin') {
+  hideSheet(); $('#app').hidden = true; $('#gate').hidden = false;
+  $('#gateTitle').textContent = title;
+  $('#gateMsg').textContent = msg || GATE_WEB;
+}
+// account menu (browser only)
+document.addEventListener('click', (e) => { if (!e.target.closest('#acct')) $('#acct').open = false; });
+$('#acct').addEventListener('click', async (e) => {
+  const b = e.target.closest('[data-out]'); if (!b) return;
+  const all = b.dataset.out === 'all';
+  if (!(await confirmBox(all ? 'Hamma kompyuter va brauzerlardan chiqasizmi? Qayta kirish uchun botdan yangi havola olasiz.' : 'Shu brauzerdan chiqasizmi?'))) return;
+  await call(all ? 'logout_all' : 'logout').catch(() => {});
+  keep(null); SESSION = null;
+  showGate('Chiqdingiz. Qayta kirish uchun botga /admin yozing va “Brauzerda ochish” ni bosing.');
+});
 async function start() {
   if (tg) { document.documentElement.classList.toggle('tg', !!tg.initData); tg.ready(); tg.expand(); try { tg.setHeaderColor('bg_color'); } catch {} }
-  if (!DEMO && !(tg && tg.initData)) return showGate();
+  const m = location.hash.match(/login=([A-Za-z0-9_-]{20,})/);
+  if (m) history.replaceState(null, '', location.pathname + location.search); // the link works once; keep it out of history
+  if (!DEMO && !inTg()) {
+    if (m) {
+      showGate('Bir soniya…', 'Kirilmoqda');
+      try {
+        const { j } = await post({ action: 'login', params: { token: m[1], agent: navigator.userAgent.slice(0, 200) } });
+        if (!j.ok) return showGate(j.error, 'Kirib bo‘lmadi');
+        SESSION = j.data.session; keep(SESSION);
+      } catch { return showGate('Server bilan bog‘lanib bo‘lmadi. Internetni tekshirib, sahifani yangilang.'); }
+    } else SESSION = kept();
+    if (!SESSION) return showGate();
+  }
   try {
     const r = await call('me'); if (!r.ok) return showGate(r.error);
     ME = r.data; $('#gate').hidden = true; $('#app').hidden = false;
+    if (ME.via === 'web') { $('#acct').hidden = false; $('#acctName').textContent = ME.user.first_name || 'Admin'; }
+    setPool(QS.pool);
     let first = 'stats'; try { first = sessionStorage.getItem('tab') || 'stats'; } catch {}
     selectTab(first);
-  } catch (e) { if ($('#app').hidden) showGate('Server bilan bog‘lanib bo‘lmadi. Internetni tekshirib, panelni qayta oching.'); }
+  } catch (e) {
+    // 401/403 already showed their own message; anything else is a network problem
+    if (!/^(Kirish|Bu panel)/.test(e?.message || '')) showGate('Server bilan bog‘lanib bo‘lmadi. Internetni tekshirib, panelni qayta oching.');
+  }
 }
 
 // ---------- demo data (only with ?demo=1, for previewing the layout) ----------
@@ -782,15 +1165,27 @@ function demoCall(action, p) {
       { id: 3, subject: 'Fizika', exam_label: '18-may', exam_start: '2026-05-18', reg_until: '2026-04-20' },
     ],
   });
+  if (!D.pro) {
+    const fig = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="520" height="300" viewBox="0 0 520 300"><rect width="520" height="300" fill="#fff"/><polygon points="80,250 440,250 80,60" fill="none" stroke="#16202b" stroke-width="3"/><rect x="80" y="230" width="20" height="20" fill="none" stroke="#16202b" stroke-width="2"/><text x="250" y="280" font-family="Arial" font-size="22" fill="#16202b">8</text><text x="45" y="160" font-family="Arial" font-size="22" fill="#16202b">6</text><text x="270" y="140" font-family="Arial" font-size="22" fill="#2a7ad6">x</text></svg>');
+    D.pro = [
+      { id: 12, pool: 'pro', qtype: 'choice', subject: 'Matematika', topic: 'Planimetriya', difficulty: 2, body: 'Chizmadagi to‘g‘ri burchakli uchburchakning gipotenuzasi x ni toping.', options: ['9', '10', '12', '14'], correct: 1, explanation: 'x² = 6² + 8² = 100, x = 10.', active: true, sent: 0, image: 'q/demo.svg', image_url: fig },
+      { id: 11, pool: 'pro', qtype: 'written', subject: 'Matematika', topic: 'Tenglama', difficulty: 1, body: '3y − 5 = 16. y ni toping.', options: [], correct: null, answers: ['7', 'y = 7'], explanation: '3y = 21, y = 7.', active: true, sent: 0 },
+      { id: 10, pool: 'pro', qtype: 'choice', subject: 'Kimyo', topic: 'Mol', difficulty: 3, body: '11,2 l (n.sh.) CO₂ necha gramm?', options: ['11', '22', '44', '88'], correct: 1, explanation: '11,2 l = 0,5 mol; 0,5 · 44 = 22 g.', active: false, sent: 0 },
+    ];
+    D.q.forEach((q) => { q.pool = 'daily'; q.qtype = 'choice'; });
+  }
   const ok = (data) => Promise.resolve({ ok: true, data });
   switch (action) {
-    case 'me': return ok({ user: { id: 1, first_name: 'Zafar' }, subjects: D.subjects, sessionSubjects: D.subjects.filter((s) => s !== 'Ingliz tili').concat('Boshlang‘ich sinf') });
+    case 'me': return ok({ user: { id: 1, first_name: 'Zafar' }, via: /[?&]web=1/.test(location.search) ? 'web' : 'tg', subjects: D.subjects, sessionSubjects: D.subjects.filter((s) => s !== 'Ingliz tili').concat('Boshlang‘ich sinf') });
+    case 'img.upload': return ok({ path: 'q/00000000-0000-0000-0000-000000000000.png', url: 'data:image/jpeg;base64,' + p.data });
     case 'stats': return ok({ users: 1284, ready: 1130, blocked: 41, paused: 63, by_role: { s: 1010, t: 172, p: 88, '-': 14 }, new_7d: 640, new_today: 96, refs: 211,
       sources: [{ source: 'landing', n: 702 }, { source: 'yt', n: 310 }, { source: 'ref', n: 211 }, { source: 'direct', n: 61 }],
       subjects: [{ subject: 'Matematika', n: 520 }, { subject: 'Ingliz tili', n: 410 }, { subject: 'Biologiya', n: 300 }, { subject: 'Kimyo', n: 288 }, { subject: 'Fizika', n: 190 }],
-      today_sent: 1050, today_answered: 731, today_correct: 498, questions: { Matematika: 64, Fizika: 31, Kimyo: 8, Biologiya: 7, 'Ona tili': 6, Tarix: 6, 'Ingliz tili': 26, Geografiya: 6 } });
-    case 'q.list': { const rows = D.q.filter((q) => (!p.subject || q.subject === p.subject) && (p.status === 'all' || (p.status === 'active') === q.active) && (!p.search || q.body.toLowerCase().includes(p.search.toLowerCase())));
-      return ok({ total: rows.length, rows, by_subject: { Matematika: 16, Fizika: 8, Tarix: 6 } }); }
+      today_sent: 1050, today_answered: 731, today_correct: 498, questions: { Matematika: 64, Fizika: 31, Kimyo: 8, Biologiya: 7, 'Ona tili': 6, Tarix: 6, 'Ingliz tili': 26, Geografiya: 6 },
+      questions_pro: { Matematika: 2, Kimyo: 0 } });
+    case 'q.list': { const src = p.pool === 'pro' ? D.pro : D.q;
+      const rows = src.filter((q) => (!p.subject || q.subject === p.subject) && (p.status === 'all' || (p.status === 'active') === q.active) && (!p.difficulty || q.difficulty == p.difficulty) && (!p.search || q.body.toLowerCase().includes(p.search.toLowerCase())));
+      return ok({ total: rows.length, rows, pools: { daily: 63, pro: D.pro.length }, by_subject: p.pool === 'pro' ? { Matematika: 2, Kimyo: 1 } : { Matematika: 16, Fizika: 8, Tarix: 6 } }); }
     case 'q.save': return ok({ ...p, id: p.id || Date.now() });
     case 'q.toggle': return ok({ ok: true });
     case 't.list': return fetch(new URL('demo-texts.json', location.href)).then((r) => r.json()).then((d) => ({ ok: true, data: d })).catch(() => ok({ groups: [], items: [] }));
