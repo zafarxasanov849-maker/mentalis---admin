@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Mentalis admin</title>
+<script src="https://telegram.org/js/telegram-web-app.js?57"></script>
+<style>
+/* Native Telegram look: colours come from the user's Telegram theme; fallbacks are for a plain browser. */
+:root{
+  --bg: var(--tg-theme-bg-color, #ffffff);
+  --sunken: var(--tg-theme-secondary-bg-color, #f0f2f5);
+  --section: var(--tg-theme-section-bg-color, #ffffff);
+  --ink: var(--tg-theme-text-color, #16202b);
+  --hint: var(--tg-theme-hint-color, #6f7f8f);
+  --link: var(--tg-theme-link-color, #2a7ad6);
+  --btn: var(--tg-theme-button-color, #2a7ad6);
+  --btn-ink: var(--tg-theme-button-text-color, #ffffff);
+  --sep: var(--tg-theme-section-separator-color, #e3e7ec);
+  --danger: var(--tg-theme-destructive-text-color, #d14a3f);
+  --right: #2e9d5b;
+  --right-soft: color-mix(in srgb, #2e9d5b 14%, transparent);
+  --warn: #b7791f;
+  --warn-soft: color-mix(in srgb, #d69e2e 16%, transparent);
+  --bubble: var(--tg-theme-bg-color, #ffffff);
+  --chat: color-mix(in srgb, var(--btn) 10%, var(--sunken));
+  --r: 12px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not(.tg){ --bg:#17212b; --sunken:#0e1621; --section:#17212b; --ink:#f2f5f8; --hint:#8696a7; --link:#6ab3f3; --btn:#5288c1; --sep:#24313e; --bubble:#182533; color-scheme: dark }
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;background:var(--sunken);color:var(--ink);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+body{padding-bottom:max(24px, env(safe-area-inset-bottom))}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--btn);outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+.muted{color:var(--hint)}
+.wrap{max-width:980px;margin:0 auto;padding:0 max(14px, env(safe-area-inset-left)) 0 max(14px, env(safe-area-inset-right))}
+h1,h2,h3{margin:0;font-weight:650;letter-spacing:-.01em}
+h2{font-size:17px}
+h3{font-size:15px}
+p{margin:0}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--sep)}
+.top .wrap{display:flex;align-items:center;gap:14px;min-height:52px}
+.brand{font-weight:700;font-size:17px;letter-spacing:-.02em;white-space:nowrap}
+.brand small{font-weight:500;color:var(--hint);margin-left:6px;font-size:13px}
+.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;margin-left:auto}
+.tabs::-webkit-scrollbar{display:none}
+.tab{border:0;background:none;padding:8px 12px;border-radius:9px;color:var(--hint);font-weight:550;white-space:nowrap}
+.tab[aria-selected="true"]{background:var(--sunken);color:var(--ink)}
+@media (max-width:620px){
+  .top .wrap{flex-wrap:wrap;gap:0;padding-top:8px}
+  .tabs{margin:6px -4px 8px;width:calc(100% + 8px)}
+  .tab{flex:1}
+}
+
+main{padding-top:16px}
+section[hidden]{display:none}
+.block{background:var(--section);border-radius:var(--r);padding:16px;margin-bottom:12px}
+.block > h2{margin-bottom:12px}
+.row{display:flex;align-items:center;gap:10px}
+.grow{flex:1;min-width:0}
+.btn{border:0;border-radius:10px;padding:10px 16px;font-weight:600;background:var(--btn);color:var(--btn-ink);min-height:42px}
+.btn.ghost{background:var(--sunken);color:var(--ink)}
+.btn.link{background:none;color:var(--link);padding:6px 8px;min-height:32px}
+.btn.danger{background:none;color:var(--danger)}
+.btn[disabled]{opacity:.5;cursor:default}
+.btn.sm{min-height:34px;padding:6px 12px;font-size:14px}
+input[type=text],input[type=search],input[type=date],select,textarea{width:100%;border:1px solid var(--sep);background:var(--bg);border-radius:10px;padding:10px 12px;min-height:42px}
+textarea{resize:vertical;min-height:96px;line-height:1.45}
+label.f{display:block;margin-bottom:14px}
+label.f > span{display:block;font-size:13px;color:var(--hint);margin-bottom:6px;font-weight:550}
+.err{background:color-mix(in srgb, var(--danger) 10%, transparent);color:var(--danger);border-radius:10px;padding:10px 12px;margin:0 0 12px;font-size:14px}
+.err ul,.wrn ul{margin:4px 0 0;padding-left:18px}
+.wrn{background:var(--warn-soft);color:var(--warn);border-radius:10px;padding:10px 12px;margin:0 0 12px;font-size:14px}
+
+/* stats */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--sep);border-radius:var(--r);overflow:hidden;margin-bottom:12px}
+.kpi{background:var(--section);padding:14px 16px}
+.kpis.k3{grid-template-columns:repeat(3,1fr)}
+.kpis.k3 .kpi{padding:12px}
+.kpis.k3 .kpi b{font-size:22px}
+.kpi b{display:block;font-size:26px;font-weight:700;letter-spacing:-.02em}
+.kpi span{color:var(--hint);font-size:13px}
+.bars{display:grid;gap:8px}
+.bar{display:grid;grid-template-columns:minmax(90px,140px) 1fr 48px;gap:10px;align-items:center;font-size:14px}
+.bar i{display:block;height:8px;border-radius:4px;background:var(--btn);min-width:2px}
+.bar .t{background:var(--sunken);border-radius:4px}
+.bar.low i{background:var(--warn)}
+.bar em{font-style:normal;text-align:right;color:var(--hint)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.two > .block{margin-bottom:0}
+@media (max-width:720px){.two{grid-template-columns:1fr}}
+
+/* chips */
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.chips::-webkit-scrollbar{display:none}
+.chip{border:1px solid var(--sep);background:var(--bg);border-radius:999px;padding:6px 12px;white-space:nowrap;font-size:14px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip small{opacity:.65;margin-left:4px}
+
+/* question list */
+.qlist{display:grid;gap:10px}
+.q{background:var(--section);border-radius:var(--r);padding:14px 16px}
+.q.off{opacity:.6}
+.q .meta{font-size:13px;color:var(--hint);display:flex;gap:10px;flex-wrap:wrap}
+.q .body{margin:6px 0 8px;white-space:pre-wrap;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.q ol{margin:0 0 8px;padding:0;list-style:none;display:grid;gap:3px;font-size:14px}
+.q ol li{padding:3px 8px;border-radius:7px}
+.q ol li.ok{background:var(--right-soft);color:var(--right);font-weight:600}
+.q .acts{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.toolbar input[type=search]{flex:1;min-width:180px}
+.toolbar select{width:auto}
+.empty{text-align:center;padding:40px 16px;color:var(--hint)}
+
+/* sheet (editor) */
+.sheet{position:fixed;inset:0;z-index:50;background:var(--sunken);overflow-y:auto;overscroll-behavior:contain}
+.sheet[hidden]{display:none}
+.sheet-head{position:sticky;top:0;z-index:2;background:var(--bg);border-bottom:1px solid var(--sep)}
+.sheet-head .wrap{display:flex;align-items:center;gap:10px;min-height:52px}
+.sheet-head h2{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sheet-body{padding:16px 0 120px}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,380px);gap:16px;align-items:start}
+.split .preview{position:sticky;top:68px}
+@media (max-width:860px){.split{grid-template-columns:1fr}.split .preview{position:static}}
+.sheet-foot{position:fixed;left:0;right:0;bottom:0;z-index:3;background:var(--bg);border-top:1px solid var(--sep);padding:10px 0 max(10px, env(safe-area-inset-bottom))}
+.sheet-foot .wrap{display:flex;gap:8px;align-items:center}
+
+/* options editor */
+.opts{display:grid;gap:8px}
+.opt{display:grid;grid-template-columns:44px 1fr 36px;gap:8px;align-items:center}
+.letter{height:42px;border-radius:10px;border:1px solid var(--sep);background:var(--bg);font-weight:700}
+.opt.ok .letter{background:var(--right);border-color:var(--right);color:#fff}
+.opt.ok input{border-color:var(--right)}
+.rm{border:0;background:none;color:var(--hint);font-size:20px;height:42px}
+.hintline{font-size:13px;color:var(--hint);margin-top:6px}
+
+/* Telegram preview — the one place the design spends its boldness */
+.chat{background:var(--chat);border-radius:var(--r);padding:16px 12px;}
+.chat > .cap{font-size:12px;color:var(--hint);text-align:center;margin-bottom:10px}
+.msg{background:var(--bubble);border-radius:14px 14px 14px 4px;padding:9px 12px 8px;max-width:340px;white-space:pre-wrap;word-wrap:break-word;box-shadow:0 1px 1px color-mix(in srgb, var(--ink) 12%, transparent);font-size:15px;line-height:1.38}
+.msg + .msg{margin-top:8px}
+.msg code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px}
+.msg .var{background:var(--warn-soft);color:var(--warn);border-radius:4px;padding:0 3px}
+.kbd{display:grid;gap:4px;max-width:340px;margin-top:4px}
+.kbd div{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px}
+.kbd span{background:color-mix(in srgb, var(--bubble) 70%, transparent);border-radius:8px;text-align:center;padding:8px 6px;font-size:14px;font-weight:550}
+.kbd span.g{background:var(--right);color:#fff}
+
+/* texts */
+.group{background:var(--section);border-radius:var(--r);margin-bottom:12px;overflow:hidden}
+.group > h2{padding:14px 16px 6px}
+.titem{display:block;width:100%;text-align:left;border:0;background:none;padding:12px 16px;border-top:1px solid var(--sep)}
+.titem:first-of-type{border-top:0}
+.titem .lbl{font-weight:550;display:flex;gap:8px;align-items:baseline}
+.titem .pv{color:var(--hint);font-size:14px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.badge{font-size:12px;font-weight:600;color:var(--right);background:var(--right-soft);border-radius:6px;padding:1px 6px;white-space:nowrap}
+.fmt{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.fmt button{border:1px solid var(--sep);background:var(--bg);border-radius:8px;min-width:36px;height:34px;padding:0 10px}
+.vars{display:grid;gap:6px;margin:10px 0 14px}
+.var-chip{display:flex;gap:10px;align-items:baseline;text-align:left;border:1px dashed var(--sep);background:var(--bg);border-radius:9px;padding:7px 10px;font-size:14px}
+.var-chip code{color:var(--link);font-weight:600}
+.var-chip span{color:var(--hint)}
+.hist{display:grid;gap:8px;margin-top:8px}
+.hist .h{border:1px solid var(--sep);border-radius:10px;padding:10px 12px;font-size:14px}
+.hist .h pre{white-space:pre-wrap;margin:6px 0 0;font:inherit}
+
+/* sessions */
+table.ses{width:100%;border-collapse:collapse;font-size:14px}
+table.ses th{text-align:left;color:var(--hint);font-weight:550;padding:6px 8px;border-bottom:1px solid var(--sep)}
+table.ses td{padding:10px 8px;border-bottom:1px solid var(--sep);vertical-align:top}
+.slist{display:grid}
+.srow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:0;background:none;padding:12px 0;border-top:1px solid var(--sep)}
+.srow:first-child{border-top:0}
+.srow .t{flex:1;min-width:0}
+.srow .t span{display:block;color:var(--hint);font-size:14px}
+.pill{white-space:nowrap;display:inline-block;border-radius:999px;padding:2px 8px;font-size:12px;font-weight:600}
+.pill.open{background:var(--right-soft);color:var(--right)}
+.pill.soon{background:var(--warn-soft);color:var(--warn)}
+.pill.closed{background:var(--sunken);color:var(--hint)}
+.scroll-x{overflow-x:auto}
+
+.toast{position:fixed;left:50%;bottom:max(20px, env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;z-index:100;font-size:14px;max-width:calc(100% - 32px)}
+.gate{min-height:80vh;display:grid;place-items:center;text-align:center;padding:24px}
+.gate h1{font-size:22px;margin-bottom:8px}
+.gate p{max-width:34em;color:var(--hint)}
+.spin{color:var(--hint);padding:24px;text-align:center}
+@media (prefers-reduced-motion:no-preference){ .sheet{animation:up .18s ease-out} @keyframes up{from{transform:translateY(12px);opacity:.6}to{transform:none;opacity:1}} }
+</style>
+</head>
+<body>
+<div id="gate" class="gate" hidden>
+  <div>
+    <h1>Panelni bot ichidan oching</h1>
+    <p id="gateMsg">Telegram’da @mentaliss_bot ga /admin yozing va “Panelni ochish” tugmasini bosing. Kirish faqat adminlar uchun.</p>
+  </div>
+</div>
+
+<div id="app" hidden>
+  <header class="top">
+    <div class="wrap">
+      <div class="brand">Mentalis<small>admin</small></div>
+      <nav class="tabs" role="tablist" aria-label="Bo‘limlar">
+        <button class="tab" role="tab" data-tab="stats" aria-selected="true">Statistika</button>
+        <button class="tab" role="tab" data-tab="questions">Savollar</button>
+        <button class="tab" role="tab" data-tab="texts">Bot matnlari</button>
+        <button class="tab" role="tab" data-tab="sessions">Sanalar</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="tab-stats"></section>
+
+    <section id="tab-questions" hidden>
+      <div class="toolbar">
+        <input type="search" id="qSearch" placeholder="Qidirish" aria-label="Qidirish">
+        <select id="qStatus" aria-label="Holat">
+          <option value="all">Hammasi</option>
+          <option value="active">Botda bor</option>
+          <option value="hidden">Yashirilgan</option>
+        </select>
+        <button class="btn ghost" id="qImportBtn">Excel’dan yuklash</button>
+        <button class="btn" id="qAddBtn">Savol qo‘shish</button>
+      </div>
+      <div class="chips" id="qSubjects" role="group" aria-label="Fan"></div>
+      <p class="muted num" id="qCount" style="margin:12px 2px 8px;font-size:14px"></p>
+      <div class="qlist" id="qList"></div>
+      <div style="text-align:center;margin-top:12px"><button class="btn ghost" id="qMore" hidden>Yana ko‘rsatish</button></div>
+    </section>
+
+    <section id="tab-texts" hidden>
+      <div class="block">
+        <p>Botning har bir xabari va tugmasi shu yerda. Bosing, o‘zgartiring, saqlang — bot bir daqiqa ichida yangi matn bilan yozadi. <span class="muted">{ism} kabi joylarni bot har bir odamning o‘z ma’lumoti bilan to‘ldiradi.</span></p>
+      </div>
+      <div id="tGroups"></div>
+    </section>
+
+    <section id="tab-sessions" hidden>
+      <div class="block">
+        <div class="row" style="margin-bottom:12px">
+          <h2 class="grow">Imtihon va ro‘yxat sanalari</h2>
+          <button class="btn sm" id="sAddBtn">Sana qo‘shish</button>
+        </div>
+        <p class="muted" style="margin-bottom:12px;font-size:14px">Bot rejada shu sanalarni ko‘rsatadi va ro‘yxat yopilishidan 7, 3 va 1 kun oldin eslatadi. BMBA yangi jadval e’lon qilsa, shu yerga qo‘shing.</p>
+        <div class="slist" id="sTable"></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- question editor -->
+<div class="sheet" id="qSheet" hidden role="dialog" aria-modal="true" aria-labelledby="qSheetTitle">
+  <div class="sheet-head"><div class="wrap"><button class="btn link" data-close>Yopish</button><h2 id="qSheetTitle">Savol</h2></div></div>
+  <div class="sheet-body"><div class="wrap split">
+    <form id="qForm" class="block" novalidate>
+      <div id="qErr"></div>
+      <div class="row" style="gap:12px;align-items:flex-start">
+        <label class="f grow"><span>Fan</span><select name="subject" required></select></label>
+        <label class="f grow"><span>Mavzu</span><input type="text" name="topic" maxlength="80" placeholder="Masalan: Planimetriya"></label>
+      </div>
+      <label class="f"><span>Savol matni</span><textarea name="body" rows="4" maxlength="1500" placeholder="Savolni to‘liq yozing"></textarea></label>
+      <div class="f" style="margin-bottom:14px">
+        <span style="display:block;font-size:13px;color:var(--hint);margin-bottom:6px;font-weight:550">Variantlar — to‘g‘ri javobning harfini bosing</span>
+        <div class="opts" id="qOpts"></div>
+        <button type="button" class="btn link" id="qAddOpt">Variant qo‘shish</button>
+      </div>
+      <label class="f"><span>Yechim</span><textarea name="explanation" rows="4" maxlength="1500" placeholder="Qanday yechiladi va qaysi xato ko‘p uchraydi"></textarea></label>
+      <label class="row" style="gap:8px"><input type="checkbox" name="active" checked> <span>Botda ishlatilsin</span></label>
+    </form>
+    <div class="preview">
+      <div class="chat" id="qPreview"></div>
+    </div>
+  </div></div>
+  <div class="sheet-foot"><div class="wrap"><span class="muted grow" id="qFootNote" style="font-size:13px"></span><button class="btn" id="qSave">Saqlash</button></div></div>
+</div>
+
+<!-- import -->
+<div class="sheet" id="iSheet" hidden role="dialog" aria-modal="true" aria-labelledby="iTitle">
+  <div class="sheet-head"><div class="wrap"><button class="btn link" data-close>Yopish</button><h2 id="iTitle">Excel’dan yuklash</h2></div></div>
+  <div class="sheet-body"><div class="wrap">
+    <div class="block">
+      <p style="margin-bottom:10px">Excel yoki Google Sheets’da ustunlar shu tartibda bo‘lsin, birinchi qator — sarlavha:</p>
+      <div class="scroll-x"><table class="ses" style="margin-bottom:12px"><tr><th>fan</th><th>mavzu</th><th>savol</th><th>a</th><th>b</th><th>c</th><th>d</th><th>javob</th><th>yechim</th></tr>
+      <tr><td>Matematika</td><td>Foizlar</td><td>40 000 ning 15% i?</td><td>6 000</td><td>4 000</td><td>600</td><td>60</td><td>A</td><td>40 000 · 0,15 = 6 000</td></tr></table></div>
+      <p class="muted" style="font-size:14px;margin-bottom:12px">Jadvalni belgilab nusxa oling va pastga qo‘ying — yoki CSV faylni tanlang. “javob” ustuniga A, B, C, D yoki E yozing.</p>
+      <textarea id="iPaste" rows="6" placeholder="Shu yerga qo‘ying"></textarea>
+      <div class="row" style="margin-top:10px;flex-wrap:wrap"><input type="file" id="iFile" accept=".csv,.tsv,.txt,text/csv"><span class="grow"></span><button class="btn ghost" id="iCheck">Tekshirish</button></div>
+    </div>
+    <div id="iResult"></div>
+  </div></div>
+  <div class="sheet-foot"><div class="wrap"><span class="muted grow" id="iNote" style="font-size:13px"></span><button class="btn" id="iGo" disabled>Yuklash</button></div></div>
+</div>
+
+<!-- text editor -->
+<div class="sheet" id="tSheet" hidden role="dialog" aria-modal="true" aria-labelledby="tTitle">
+  <div class="sheet-head"><div class="wrap"><button class="btn link" data-close>Yopish</button><h2 id="tTitle">Matn</h2></div></div>
+  <div class="sheet-body"><div class="wrap split">
+    <div class="block">
+      <p id="tWhere" class="muted" style="margin-bottom:12px"></p>
+      <div id="tErr"></div>
+      <div class="fmt" id="tFmt">
+        <button type="button" data-wrap="b" title="Qalin"><b>B</b></button>
+        <button type="button" data-wrap="i" title="Kursiv"><i>I</i></button>
+        <button type="button" data-wrap="u" title="Tagiga chizilgan"><u>U</u></button>
+      </div>
+      <textarea id="tInput" rows="8"></textarea>
+      <div class="row hintline"><span class="grow" id="tKind"></span><span class="num" id="tLen"></span></div>
+      <div id="tVars"></div>
+      <div class="row" style="flex-wrap:wrap;gap:4px">
+        <button class="btn link" id="tDefault">Asl matnni ko‘rish</button>
+        <button class="btn link" id="tHistBtn">O‘zgarishlar tarixi</button>
+      </div>
+      <div class="hist" id="tHist"></div>
+    </div>
+    <div class="preview"><div class="chat" id="tPreview"></div></div>
+  </div></div>
+  <div class="sheet-foot"><div class="wrap"><button class="btn danger" id="tReset">Asl holiga qaytarish</button><span class="grow"></span><button class="btn" id="tSave">Saqlash</button></div></div>
+</div>
+
+<!-- session editor -->
+<div class="sheet" id="sSheet" hidden role="dialog" aria-modal="true" aria-labelledby="sTitle">
+  <div class="sheet-head"><div class="wrap"><button class="btn link" data-close>Yopish</button><h2 id="sTitle">Imtihon sanasi</h2></div></div>
+  <div class="sheet-body"><div class="wrap" style="max-width:560px">
+    <form id="sForm" class="block" novalidate>
+      <div id="sErr"></div>
+      <label class="f"><span>Fan</span><select name="subject"></select></label>
+      <label class="f"><span>Imtihon kuni — botda shunday yoziladi</span><input type="text" name="exam_label" maxlength="40" placeholder="Masalan: 23–24-noyabr"></label>
+      <div class="row" style="gap:12px">
+        <label class="f grow"><span>Imtihon boshlanadigan sana</span><input type="date" name="exam_start"></label>
+        <label class="f grow"><span>Ro‘yxat oxirgi kuni</span><input type="date" name="reg_until"></label>
+      </div>
+    </form>
+  </div></div>
+  <div class="sheet-foot"><div class="wrap"><button class="btn danger" id="sDel">O‘chirish</button><span class="grow"></span><button class="btn" id="sSave">Saqlash</button></div></div>
+</div>
+
+<script>
+'use strict';
+const API = 'https://gaghsvffdfkxhxniwtmw.supabase.co/functions/v1/levelup-bot/admin';
+const tg = window.Telegram && Telegram.WebApp;
+const DEMO = /[?&]demo=1/.test(location.search);
+const LETTERS = ['A', 'B', 'C', 'D', 'E'];
+const MONTHS = ['yanvar','fevral','mart','aprel','may','iyun','iyul','avgust','sentabr','oktabr','noyabr','dekabr'];
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const fmt = (n) => Number(n || 0).toLocaleString('ru-RU').replace(/ /g, ' ');
+const dayLabel = (iso) => `${+iso.slice(8, 10)}-${MONTHS[+iso.slice(5, 7) - 1]}`;
+const todayIso = () => new Date(Date.now() + 5 * 3600e3).toISOString().slice(0, 10);
+let ME = null;
+
+// ---------- api ----------
+async function call(action, params = {}) {
+  if (DEMO) return demoCall(action, params);
+  const res = await fetch(API, { method: 'POST', headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ initData: tg?.initData || '', action, params }) });
+  const j = await res.json().catch(() => ({ ok: false, error: 'Server javob bermadi' }));
+  if (res.status === 401 || res.status === 403) { showGate(j.error); throw new Error(j.error); }
+  return j;
+}
+function toast(text) {
+  $$('.toast').forEach((t) => t.remove());
+  const t = document.createElement('div'); t.className = 'toast'; t.textContent = text; t.setAttribute('role', 'status');
+  document.body.append(t); setTimeout(() => t.remove(), 2600);
+}
+function haptic(kind) { try { tg?.HapticFeedback?.notificationOccurred(kind); } catch {} }
+function confirmBox(text) {
+  return new Promise((ok) => { if (tg?.showConfirm && tg.platform !== 'unknown') tg.showConfirm(text, ok); else ok(window.confirm(text)); });
+}
+function errBox(el, errors, warnings) {
+  el.innerHTML = (errors?.length ? `<div class="err">Saqlanmadi:<ul>${errors.map((e) => `<li>${esc(e)}</li>`).join('')}</ul></div>` : '') +
+    (warnings?.length ? `<div class="wrn">E’tibor bering:<ul>${warnings.map((e) => `<li>${esc(e)}</li>`).join('')}</ul></div>` : '');
+}
+
+// ---------- sheets ----------
+let openSheet = null;
+function showSheet(el) {
+  openSheet = el; el.hidden = false; document.body.style.overflow = 'hidden'; el.scrollTop = 0;
+  tg?.BackButton?.show();
+  setTimeout(() => $('input,textarea,select', el)?.focus({ preventScroll: true }), 60);
+}
+function hideSheet() {
+  if (!openSheet) return; openSheet.hidden = true; openSheet = null; document.body.style.overflow = ''; tg?.BackButton?.hide();
+}
+$$('[data-close]').forEach((b) => b.addEventListener('click', hideSheet));
+tg?.BackButton?.onClick(hideSheet);
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hideSheet(); });
+
+// ---------- tabs ----------
+const loaded = {};
+function selectTab(name) {
+  $$('.tab').forEach((t) => t.setAttribute('aria-selected', String(t.dataset.tab === name)));
+  $$('main > section').forEach((s) => { s.hidden = s.id !== 'tab-' + name; });
+  if (!loaded[name]) { loaded[name] = true; ({ stats: loadStats, questions: () => loadQuestions(true), texts: loadTexts, sessions: loadSessions })[name](); }
+  try { sessionStorage.setItem('tab', name); } catch {}
+}
+$$('.tab').forEach((t) => t.addEventListener('click', () => selectTab(t.dataset.tab)));
+
+// ---------- statistika ----------
+function bars(list, max, low) {
+  if (!list.length) return '<p class="muted">Hali ma’lumot yo‘q</p>';
+  return `<div class="bars">${list.map(([k, v]) => `<div class="bar ${low && v < low ? 'low' : ''}"><span>${esc(k)}</span><span class="t"><i style="width:${Math.max(2, Math.round((v / (max || 1)) * 100))}%"></i></span><em class="num">${fmt(v)}</em></div>`).join('')}</div>`;
+}
+const SRC = { landing: 'Sayt', ref: 'Do‘st taklifi', parent: 'Ota-ona havolasi', direct: 'To‘g‘ridan-to‘g‘ri', yt: 'YouTube', insta: 'Instagram', tg: 'Telegram kanal' };
+async function loadStats() {
+  const el = $('#tab-stats'); el.innerHTML = '<p class="spin">Yuklanmoqda…</p>';
+  const r = await call('stats'); if (!r.ok) { el.innerHTML = `<div class="err">${esc(r.error)}</div>`; return; }
+  const s = r.data, role = s.by_role || {};
+  const rate = s.today_sent ? Math.round((s.today_answered / s.today_sent) * 100) : 0;
+  const qs = Object.entries(s.questions || {}).sort((a, b) => b[1] - a[1]);
+  const lowQ = qs.filter(([, v]) => v < 30).map(([k]) => k);
+  el.innerHTML = `
+    <div class="kpis">
+      <div class="kpi"><b class="num">${fmt(s.users)}</b><span>botdagi odamlar</span></div>
+      <div class="kpi"><b class="num">${fmt(s.new_today)}</b><span>bugun qo‘shildi</span></div>
+      <div class="kpi"><b class="num">${fmt(s.new_7d)}</b><span>oxirgi 7 kunda</span></div>
+      <div class="kpi"><b class="num">${fmt(s.refs)}</b><span>do‘st taklifi bilan</span></div>
+    </div>
+    <div class="two">
+      <div class="block"><h2>Kimlar</h2>${bars([['O‘quvchi', role.s || 0], ['O‘qituvchi', role.t || 0], ['Ota-ona', role.p || 0], ['Rol tanlamagan', role['-'] || 0]], s.users)}
+        <p class="muted" style="margin-top:12px;font-size:14px">Botni bloklagan: ${fmt(s.blocked)} · Kun savolini to‘xtatgan: ${fmt(s.paused)}</p></div>
+      <div class="block"><h2>Bugungi kun savoli</h2>
+        <div class="kpis k3" style="margin:0"><div class="kpi"><b class="num">${fmt(s.today_sent)}</b><span>yuborildi</span></div>
+        <div class="kpi"><b class="num">${fmt(s.today_answered)}</b><span>javob berdi · ${rate}%</span></div>
+        <div class="kpi"><b class="num">${fmt(s.today_correct)}</b><span>to‘g‘ri topdi</span></div></div></div>
+    </div>
+    <div class="two">
+      <div class="block"><h2>Qayerdan kelishdi</h2>${bars((s.sources || []).map((x) => [SRC[x.source] || x.source || '—', x.n]), Math.max(1, ...(s.sources || []).map((x) => x.n)))}</div>
+      <div class="block"><h2>O‘quvchilar tanlagan fanlar</h2>${bars((s.subjects || []).map((x) => [x.subject, x.n]), Math.max(1, ...(s.subjects || []).map((x) => x.n)))}</div>
+    </div>
+    <div class="block"><h2>Savollar bazasi</h2>
+      ${lowQ.length ? `<div class="wrn">Har fanga kamida 30 ta savol bo‘lsa, bot bir oy takrorlamasdan ishlaydi. Kam: ${lowQ.map(esc).join(', ')}.</div>` : ''}
+      ${bars(qs, Math.max(30, ...qs.map(([, v]) => v)), 30)}</div>`;
+}
+
+// ---------- savollar ----------
+const QS = { subject: '', search: '', status: 'all', offset: 0, rows: [], total: 0, counts: {} };
+function renderSubjectChips() {
+  const all = Object.values(QS.counts).reduce((a, b) => a + b, 0);
+  $('#qSubjects').innerHTML = [['', 'Hammasi', all], ...ME.subjects.map((s) => [s, s, QS.counts[s] || 0])]
+    .map(([v, l, n]) => `<button class="chip" data-s="${esc(v)}" aria-pressed="${QS.subject === v}">${esc(l)}<small class="num">${n}</small></button>`).join('');
+}
+$('#qSubjects').addEventListener('click', (e) => { const b = e.target.closest('[data-s]'); if (!b) return; QS.subject = b.dataset.s; loadQuestions(true); });
+let qTimer; $('#qSearch').addEventListener('input', (e) => { clearTimeout(qTimer); qTimer = setTimeout(() => { QS.search = e.target.value.trim(); loadQuestions(true); }, 300); });
+$('#qStatus').addEventListener('change', (e) => { QS.status = e.target.value; loadQuestions(true); });
+$('#qMore').addEventListener('click', () => loadQuestions(false));
+
+async function loadQuestions(reset) {
+  if (reset) { QS.offset = 0; QS.rows = []; $('#qList').innerHTML = '<p class="spin">Yuklanmoqda…</p>'; }
+  const r = await call('q.list', { subject: QS.subject, search: QS.search, status: QS.status, offset: QS.offset, limit: 50 });
+  if (!r.ok) { $('#qList').innerHTML = `<div class="err">${esc(r.error)}</div>`; return; }
+  QS.rows = QS.rows.concat(r.data.rows); QS.total = r.data.total; QS.counts = r.data.by_subject || {}; QS.offset = QS.rows.length;
+  renderSubjectChips(); renderQuestions();
+}
+function renderQuestions() {
+  $('#qCount').textContent = QS.total ? `${fmt(QS.total)} ta savol` : '';
+  $('#qMore').hidden = QS.rows.length >= QS.total;
+  if (!QS.rows.length) {
+    $('#qList').innerHTML = `<div class="empty">${QS.search || QS.subject || QS.status !== 'all' ? 'Bu filtrga mos savol yo‘q.' : 'Hali savol yo‘q.'}<br><br><button class="btn" data-add>Birinchi savolni qo‘shish</button></div>`;
+    return;
+  }
+  $('#qList').innerHTML = QS.rows.map((q) => {
+    const rate = q.answered ? Math.round((q.right / q.answered) * 100) + '% to‘g‘ri' : 'hali javob yo‘q';
+    return `<article class="q ${q.active ? '' : 'off'}" data-id="${q.id}">
+      <div class="meta"><b style="color:var(--ink)">${esc(q.subject)}</b>${q.topic ? `<span>${esc(q.topic)}</span>` : ''}<span class="num">yuborildi ${fmt(q.sent)} · ${rate}</span>${q.active ? '' : '<span>yashirilgan</span>'}</div>
+      <p class="body">${esc(q.body)}</p>
+      <ol>${q.options.map((o, i) => `<li class="${i === q.correct ? 'ok' : ''}">${LETTERS[i]}) ${esc(o)}</li>`).join('')}</ol>
+      <div class="acts">
+        <button class="btn ghost sm" data-edit>Tahrirlash</button>
+        <button class="btn link sm" data-toggle>${q.active ? 'Yashirish' : 'Botga qaytarish'}</button>
+        ${q.sent ? '' : '<button class="btn danger sm" data-del>O‘chirish</button>'}
+      </div></article>`;
+  }).join('');
+}
+$('#qList').addEventListener('click', async (e) => {
+  if (e.target.closest('[data-add]')) return openQuestion(null);
+  const card = e.target.closest('[data-id]'); if (!card) return;
+  const q = QS.rows.find((x) => x.id == card.dataset.id);
+  if (e.target.closest('[data-edit]')) openQuestion(q);
+  if (e.target.closest('[data-toggle]')) {
+    const r = await call('q.toggle', { id: q.id, active: !q.active });
+    if (r.ok) { q.active = !q.active; renderQuestions(); toast(q.active ? 'Savol botga qaytarildi' : 'Savol yashirildi — bot uni boshqa yubormaydi'); }
+  }
+  if (e.target.closest('[data-del]')) {
+    if (!(await confirmBox('Savolni butunlay o‘chirasizmi?'))) return;
+    const r = await call('q.delete', { id: q.id });
+    if (r.ok) { QS.rows = QS.rows.filter((x) => x !== q); QS.total--; renderQuestions(); toast('Savol o‘chirildi'); } else toast(r.error);
+  }
+});
+
+let editing = null;
+function optRow(v, i, correct) {
+  return `<div class="opt ${i === correct ? 'ok' : ''}" data-i="${i}">
+    <button type="button" class="letter" aria-label="${LETTERS[i]} — to‘g‘ri javob" aria-pressed="${i === correct}">${LETTERS[i]}</button>
+    <input type="text" value="${esc(v)}" maxlength="300" aria-label="${LETTERS[i]} variant">
+    <button type="button" class="rm" aria-label="Variantni olib tashlash" title="Olib tashlash">×</button></div>`;
+}
+function qState() {
+  const f = $('#qForm');
+  return { id: editing?.id, subject: f.subject.value, topic: f.topic.value.trim(), body: f.body.value.trim(),
+    options: $$('#qOpts .opt input').map((i) => i.value.trim()), correct: editing.correct, explanation: f.explanation.value.trim(), active: f.active.checked };
+}
+function renderOpts(values) {
+  $('#qOpts').innerHTML = values.map((v, i) => optRow(v, i, editing.correct)).join('');
+  $('#qAddOpt').hidden = values.length >= 5;
+  $$('#qOpts .rm').forEach((b) => { b.style.visibility = values.length > 2 ? '' : 'hidden'; });
+}
+function openQuestion(q) {
+  editing = q ? { ...q } : { correct: -1 };
+  const f = $('#qForm');
+  f.subject.innerHTML = '<option value="">Fanni tanlang</option>' + ME.subjects.map((s) => `<option>${esc(s)}</option>`).join('');
+  f.subject.value = q?.subject || QS.subject || '';
+  f.topic.value = q?.topic || ''; f.body.value = q?.body || ''; f.explanation.value = q?.explanation || ''; f.active.checked = q ? q.active : true;
+  renderOpts(q ? q.options : ['', '', '', '']);
+  $('#qSheetTitle').textContent = q ? 'Savolni tahrirlash' : 'Yangi savol';
+  $('#qFootNote').textContent = q?.sent ? `Bu savol ${q.sent} kishiga yuborilgan. O‘zgarish keyingi yuborishlarda ko‘rinadi.` : '';
+  $('#qErr').innerHTML = ''; showSheet($('#qSheet')); qPreview();
+}
+$('#qOpts').addEventListener('click', (e) => {
+  const row = e.target.closest('.opt'); if (!row) return;
+  const vals = $$('#qOpts .opt input').map((i) => i.value);
+  const i = +row.dataset.i;
+  if (e.target.closest('.letter')) { editing.correct = i; renderOpts(vals); qPreview(); }
+  if (e.target.closest('.rm') && vals.length > 2) {
+    vals.splice(i, 1);
+    if (editing.correct === i) editing.correct = -1; else if (editing.correct > i) editing.correct--;
+    renderOpts(vals); qPreview();
+  }
+});
+$('#qAddOpt').addEventListener('click', () => { const vals = $$('#qOpts .opt input').map((i) => i.value); if (vals.length < 5) { vals.push(''); renderOpts(vals); $$('#qOpts .opt input').at(-1).focus(); } });
+$('#qForm').addEventListener('input', qPreview);
+function qPreview() {
+  const s = qState();
+  const head = `<b>Kun savoli</b> · ${esc(s.subject || 'Fan')}${s.topic ? ' · ' + esc(s.topic) : ''}\n<i>${dayLabel(todayIso())}</i>`;
+  const q = `${head}\n\n${esc(s.body || 'Savol matni shu yerda ko‘rinadi')}\n\n${s.options.map((o, i) => `${LETTERS[i]}) ${esc(o || '…')}`).join('\n')}`;
+  const right = s.correct >= 0 ? `${LETTERS[s.correct]}) ${esc(s.options[s.correct] || '…')}` : '— to‘g‘ri javob belgilanmagan —';
+  const res = `✅ <b>To‘g‘ri!</b> ${right}\n\n<b>Yechim.</b> ${esc(s.explanation || 'Yechim shu yerda ko‘rinadi')}`;
+  $('#qPreview').innerHTML = `<p class="cap">O‘quvchi shunday ko‘radi</p>
+    <div class="msg">${q}</div>
+    <div class="kbd"><div>${s.options.map((_, i) => `<span>${LETTERS[i]}</span>`).join('')}</div></div>
+    <p class="cap" style="margin-top:14px">To‘g‘ri javob bosilgandan keyin</p>
+    <div class="msg">${res}</div>`;
+}
+$('#qSave').addEventListener('click', async () => {
+  const s = qState();
+  const errs = [];
+  if (!s.subject) errs.push('Fanni tanlang');
+  if (!s.body) errs.push('Savol matnini yozing');
+  if (s.options.some((o) => !o)) errs.push('Bo‘sh variant qolmasin');
+  if (s.correct < 0) errs.push('To‘g‘ri javobning harfini bosing');
+  if (!s.explanation) errs.push('Yechimni yozing');
+  if (errs.length) { errBox($('#qErr'), errs); $('#qSheet').scrollTop = 0; haptic('error'); return; }
+  $('#qSave').disabled = true;
+  const r = await call('q.save', s).finally(() => { $('#qSave').disabled = false; });
+  if (!r.ok) { errBox($('#qErr'), r.errors || [r.error]); $('#qSheet').scrollTop = 0; haptic('error'); return; }
+  haptic('success'); hideSheet(); toast(s.id ? 'Savol saqlandi' : 'Savol qo‘shildi');
+  loadQuestions(true);
+});
+$('#qAddBtn').addEventListener('click', () => openQuestion(null));
+
+// ---------- import ----------
+const ALIAS = { subject: 'subject', fan: 'subject', topic: 'topic', mavzu: 'topic', body: 'body', question: 'body', savol: 'body',
+  a: 'a', b: 'b', c: 'c', d: 'd', e: 'e', correct: 'correct', javob: 'correct', answer: 'correct', explanation: 'explanation', yechim: 'explanation', izoh: 'explanation' };
+function parseTable(text) {
+  text = text.replace(/^﻿/, '');
+  const first = text.split('\n')[0];
+  const cnt = (c) => first.split(c).length - 1;
+  const delim = cnt('\t') >= Math.max(cnt(';'), cnt(',')) && cnt('\t') > 0 ? '\t' : cnt(';') > cnt(',') ? ';' : ',';
+  const rows = []; let row = [], field = '', q = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) { if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else q = false; } else field += c; }
+    else if (c === '"' && field === '') q = true;
+    else if (c === delim) { row.push(field); field = ''; }
+    else if (c === '\n' || c === '\r') { if (c === '\r' && text[i + 1] === '\n') i++; row.push(field); field = ''; if (row.some((x) => x.trim())) rows.push(row); row = []; }
+    else field += c;
+  }
+  row.push(field); if (row.some((x) => x.trim())) rows.push(row);
+  return rows;
+}
+let importRows = [];
+function checkImport(text) {
+  const rows = parseTable(text);
+  importRows = []; const errors = [];
+  if (rows.length < 2) { $('#iResult').innerHTML = '<div class="err">Sarlavha va kamida bitta savol qatori kerak.</div>'; $('#iGo').disabled = true; return; }
+  const head = rows[0].map((h) => ALIAS[h.trim().toLowerCase()] || '');
+  const miss = ['subject', 'body', 'a', 'b', 'correct', 'explanation'].filter((k) => !head.includes(k));
+  if (miss.length) { $('#iResult').innerHTML = `<div class="err">Sarlavhada ustun yo‘q: ${miss.join(', ')}. Birinchi qator: fan, mavzu, savol, a, b, c, d, javob, yechim.</div>`; $('#iGo').disabled = true; return; }
+  const col = (r, k) => (head.indexOf(k) >= 0 ? (r[head.indexOf(k)] || '').trim() : '');
+  rows.slice(1).forEach((r, i) => {
+    const line = i + 2;
+    const subject = ME.subjects.find((s) => s.toLowerCase() === col(r, 'subject').toLowerCase());
+    const options = ['a', 'b', 'c', 'd', 'e'].map((k) => col(r, k)).filter(Boolean);
+    const correct = LETTERS.indexOf(col(r, 'correct').toUpperCase());
+    const e = [];
+    if (!subject) e.push(`fan “${col(r, 'subject')}” noma’lum`);
+    if (!col(r, 'body')) e.push('savol yo‘q');
+    if (options.length < 2) e.push('kamida 2 variant');
+    if (correct < 0 || correct >= options.length) e.push('javob harfi noto‘g‘ri');
+    if (!col(r, 'explanation')) e.push('yechim yo‘q');
+    if (e.length) errors.push(`${line}-qator: ${e.join(', ')}`);
+    else importRows.push({ _line: line, subject, topic: col(r, 'topic'), body: col(r, 'body'), options, correct, explanation: col(r, 'explanation') });
+  });
+  const preview = importRows.slice(0, 5).map((q) => `<tr><td>${esc(q.subject)}</td><td>${esc(q.body.slice(0, 80))}</td><td>${LETTERS[q.correct]}) ${esc(q.options[q.correct])}</td></tr>`).join('');
+  $('#iResult').innerHTML = (errors.length ? `<div class="wrn">${errors.length} ta qator o‘tkazib yuboriladi:<ul>${errors.slice(0, 20).map((x) => `<li>${esc(x)}</li>`).join('')}${errors.length > 20 ? '<li>…</li>' : ''}</ul></div>` : '') +
+    (importRows.length ? `<div class="block"><h2 style="margin-bottom:8px">${importRows.length} ta savol tayyor</h2><div class="scroll-x"><table class="ses"><tr><th>Fan</th><th>Savol</th><th>To‘g‘ri javob</th></tr>${preview}</table></div>${importRows.length > 5 ? `<p class="muted" style="margin-top:8px;font-size:14px">va yana ${importRows.length - 5} ta</p>` : ''}</div>` : '');
+  $('#iGo').disabled = !importRows.length;
+  $('#iGo').textContent = importRows.length ? `${importRows.length} ta savolni yuklash` : 'Yuklash';
+  $('#iNote').textContent = 'Bir xil savol qayta yuklansa, eskisi yangilanadi.';
+}
+$('#qImportBtn').addEventListener('click', () => { $('#iPaste').value = ''; $('#iResult').innerHTML = ''; $('#iGo').disabled = true; $('#iGo').textContent = 'Yuklash'; showSheet($('#iSheet')); });
+$('#iCheck').addEventListener('click', () => checkImport($('#iPaste').value));
+$('#iPaste').addEventListener('paste', () => setTimeout(() => checkImport($('#iPaste').value), 0));
+$('#iFile').addEventListener('change', async (e) => { const f = e.target.files[0]; if (!f) return; const t = await f.text(); $('#iPaste').value = t; checkImport(t); });
+$('#iGo').addEventListener('click', async () => {
+  $('#iGo').disabled = true;
+  const r = await call('q.import', { rows: importRows });
+  if (!r.ok) { toast(r.error); $('#iGo').disabled = false; return; }
+  haptic('success'); hideSheet();
+  toast(`Yuklandi: ${r.data.inserted} ta yangi, ${r.data.updated} ta yangilandi`);
+  loadQuestions(true); loaded.stats = false;
+});
+
+// ---------- bot matnlari ----------
+let TX = null, cur = null;
+const KIND = { message: 'Xabar — qalin, kursiv va qator tashlash ishlaydi', button: 'Tugma — qisqa, bezaksiz matn', toast: 'Qisqa oyna yoki havola matni — bezaksiz, 190 belgigacha' };
+const LIMIT = { message: 3500, button: 60, toast: 190 };
+function sanitizeTpl(s) {
+  return s.split(/(<\/?(?:b|i|u|s|code)>)/g).map((p, i) => (i % 2 ? p : p.replace(/&(?!amp;|lt;|gt;|quot;|#\d+;)/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'))).join('');
+}
+function fillTpl(t, vars) {
+  return t.replace(/( · |, )?\{([a-z_]+)\}/g, (m, sep, n) => {
+    if (!(n in vars)) return `<span class="var">{${n}}</span>`;
+    const s = esc(vars[n]); return s === '' ? '' : (sep || '') + s;
+  });
+}
+const plainLen = (s) => s.replace(/<\/?(b|i|u|s|code)>/g, '').length;
+function previewHtml(item, value) {
+  const v = value ?? item.def;
+  if (item.kind === 'button') return `<p class="cap">Tugma</p><div class="kbd"><div><span class="${item.key === 'btn_done' ? 'g' : ''}">${esc(fillTpl(v, item.sample || {}).replace(/<[^>]+>/g, ''))}</span></div></div>`;
+  if (item.kind === 'toast') return `<p class="cap">Qisqa oyna</p><div class="msg" style="text-align:center;border-radius:12px;margin:0 auto">${esc(v)}</div>`;
+  return `<p class="cap">Botda shunday ko‘rinadi</p><div class="msg">${fillTpl(sanitizeTpl(v), item.sample || {})}</div>`;
+}
+async function loadTexts() {
+  $('#tGroups').innerHTML = '<p class="spin">Yuklanmoqda…</p>';
+  const r = await call('t.list'); if (!r.ok) { $('#tGroups').innerHTML = `<div class="err">${esc(r.error)}</div>`; return; }
+  TX = r.data; renderTexts();
+}
+function renderTexts() {
+  $('#tGroups').innerHTML = TX.groups.map((g) => {
+    const items = TX.items.filter((x) => x.group === g); if (!items.length) return '';
+    return `<div class="group"><h2>${esc(g)}</h2>${items.map((x) => `<button class="titem" data-k="${x.key}">
+      <span class="lbl"><span class="grow">${esc(x.label)}</span>${x.value != null ? '<span class="badge">o‘zgartirilgan</span>' : ''}</span>
+      <div class="pv">${esc((x.value ?? x.def).replace(/<[^>]+>/g, '').replace(/\n+/g, ' '))}</div></button>`).join('')}</div>`;
+  }).join('');
+}
+$('#tGroups').addEventListener('click', (e) => { const b = e.target.closest('[data-k]'); if (b) openText(TX.items.find((x) => x.key === b.dataset.k)); });
+function openText(item) {
+  cur = item;
+  $('#tTitle').textContent = item.label;
+  $('#tWhere').textContent = item.kind === 'message' ? 'Bot shu xabarni yuboradi:' : item.kind === 'button' ? 'Tugma yozuvi:' : 'Qisqa oyna matni:';
+  $('#tInput').value = item.value ?? item.def;
+  $('#tInput').rows = item.kind === 'message' ? 8 : 2;
+  $('#tFmt').hidden = item.kind !== 'message';
+  $('#tKind').textContent = KIND[item.kind];
+  const vars = Object.entries(item.vars || {});
+  $('#tVars').innerHTML = vars.length ? `<p class="hintline" style="margin-top:12px">Bosib qo‘shing — bot o‘rniga haqiqiy ma’lumot qo‘yadi${item.required?.length ? '. Majburiy: ' + item.required.map((x) => '{' + x + '}').join(', ') : ''}:</p>
+    <div class="vars">${vars.map(([k, d]) => `<button type="button" class="var-chip" data-var="${k}"><code>{${k}}</code><span>${esc(d)}</span></button>`).join('')}</div>` : '';
+  $('#tReset').hidden = item.value == null;
+  $('#tHist').innerHTML = ''; $('#tErr').innerHTML = '';
+  showSheet($('#tSheet')); tUpdate();
+}
+function tUpdate() {
+  const v = $('#tInput').value;
+  $('#tPreview').innerHTML = previewHtml(cur, v);
+  const n = plainLen(v), lim = LIMIT[cur.kind];
+  $('#tLen').textContent = `${n} / ${lim}`; $('#tLen').style.color = n > lim ? 'var(--danger)' : '';
+}
+$('#tInput').addEventListener('input', tUpdate);
+function insertAt(text, wrapTag) {
+  const ta = $('#tInput'), a = ta.selectionStart, b = ta.selectionEnd, v = ta.value;
+  const ins = wrapTag ? `<${wrapTag}>${v.slice(a, b)}</${wrapTag}>` : text;
+  ta.value = v.slice(0, a) + ins + v.slice(b);
+  const pos = wrapTag && a === b ? a + wrapTag.length + 2 : a + ins.length;
+  ta.focus(); ta.setSelectionRange(pos, pos); tUpdate();
+}
+$('#tVars').addEventListener('click', (e) => { const b = e.target.closest('[data-var]'); if (b) insertAt(`{${b.dataset.var}}`); });
+$('#tFmt').addEventListener('click', (e) => { const b = e.target.closest('[data-wrap]'); if (b) insertAt('', b.dataset.wrap); });
+$('#tDefault').addEventListener('click', () => {
+  $('#tHist').innerHTML = `<div class="h"><b>Asl matn</b><pre>${esc(cur.def)}</pre><button class="btn link sm" data-use="${esc(cur.def)}">Shuni qo‘yish</button></div>`;
+});
+$('#tHistBtn').addEventListener('click', async () => {
+  $('#tHist').innerHTML = '<p class="spin">Yuklanmoqda…</p>';
+  const r = await call('t.history', { key: cur.key });
+  const h = r.ok ? r.data : [];
+  $('#tHist').innerHTML = h.length ? h.map((x) => `<div class="h"><b>${x.action === 'reset' ? 'Asl holiga qaytarildi' : 'Saqlandi'}</b> <span class="muted">${new Date(x.at).toLocaleString('uz-UZ')}${x.by_name ? ' · ' + esc(x.by_name) : ''}</span>${x.value != null ? `<pre>${esc(x.value)}</pre><button class="btn link sm" data-use="${esc(x.value)}">Shuni qo‘yish</button>` : ''}</div>`).join('') : '<p class="muted">Hali o‘zgarish yo‘q.</p>';
+});
+$('#tHist').addEventListener('click', (e) => { const b = e.target.closest('[data-use]'); if (b) { $('#tInput').value = b.dataset.use; tUpdate(); $('#tInput').focus(); } });
+$('#tSave').addEventListener('click', async () => {
+  $('#tSave').disabled = true;
+  const r = await call('t.save', { key: cur.key, value: $('#tInput').value }).finally(() => { $('#tSave').disabled = false; });
+  if (!r.ok) { errBox($('#tErr'), r.errors || [r.error], r.warnings); $('#tSheet').scrollTop = 0; haptic('error'); return; }
+  cur.value = r.data.value; renderTexts(); haptic('success');
+  if (r.data.warnings?.length) { errBox($('#tErr'), [], r.data.warnings); $('#tReset').hidden = false; toast('Saqlandi, lekin ogohlantirishni ko‘rib chiqing'); return; }
+  hideSheet(); toast('Saqlandi — bot bir daqiqa ichida yangi matn bilan yozadi');
+});
+$('#tReset').addEventListener('click', async () => {
+  if (!(await confirmBox('Bu matnni asl holiga qaytarasizmi?'))) return;
+  const r = await call('t.reset', { key: cur.key });
+  if (r.ok) { cur.value = null; renderTexts(); hideSheet(); toast('Asl matn qaytarildi'); }
+});
+
+// ---------- sanalar ----------
+let SES = [], sEdit = null;
+function pill(s) {
+  const t = todayIso();
+  if (s.reg_until < t) return '<span class="pill closed">ro‘yxat yopilgan</span>';
+  const d = Math.round((Date.parse(s.reg_until) - Date.parse(t)) / 864e5);
+  return d <= 7 ? `<span class="pill soon">${d === 0 ? 'bugun oxirgi kun' : d + ' kun qoldi'}</span>` : `<span class="pill open">${d} kun qoldi</span>`;
+}
+async function loadSessions() {
+  const r = await call('s.list'); if (!r.ok) return;
+  SES = r.data;
+  $('#sTable').innerHTML = SES.length ? SES.map((s) => `<button class="srow" data-id="${s.id}">
+    <span class="t"><b>${esc(s.subject)}</b><span>Imtihon ${esc(s.exam_label)} · ro‘yxat ${dayLabel(s.reg_until)}gacha</span></span>${pill(s)}</button>`).join('')
+    : '<p class="empty">Hali sana yo‘q. “Sana qo‘shish” ni bosing.</p>';
+}
+$('#sTable').addEventListener('click', (e) => { const tr = e.target.closest('[data-id]'); if (tr) openSession(SES.find((x) => x.id == tr.dataset.id)); });
+function openSession(s) {
+  sEdit = s; const f = $('#sForm');
+  f.subject.innerHTML = '<option value="">Fanni tanlang</option>' + ME.sessionSubjects.map((x) => `<option>${esc(x)}</option>`).join('');
+  f.subject.value = s?.subject || ''; f.exam_label.value = s?.exam_label || ''; f.exam_start.value = s?.exam_start || ''; f.reg_until.value = s?.reg_until || '';
+  $('#sDel').hidden = !s; $('#sErr').innerHTML = ''; $('#sTitle').textContent = s ? 'Sanani tahrirlash' : 'Yangi sana';
+  showSheet($('#sSheet'));
+}
+$('#sAddBtn').addEventListener('click', () => openSession(null));
+$('#sSave').addEventListener('click', async () => {
+  const f = $('#sForm');
+  const r = await call('s.save', { id: sEdit?.id, subject: f.subject.value, exam_label: f.exam_label.value, exam_start: f.exam_start.value, reg_until: f.reg_until.value });
+  if (!r.ok) { errBox($('#sErr'), r.errors || [r.error]); haptic('error'); return; }
+  haptic('success'); hideSheet(); toast('Sana saqlandi'); loadSessions();
+});
+$('#sDel').addEventListener('click', async () => {
+  if (!(await confirmBox('Bu sanani o‘chirasizmi? Bot bu imtihon haqida eslatmaydi.'))) return;
+  const r = await call('s.delete', { id: sEdit.id }); if (r.ok) { hideSheet(); toast('Sana o‘chirildi'); loadSessions(); }
+});
+
+// ---------- start ----------
+function showGate(msg) { $('#app').hidden = true; $('#gate').hidden = false; if (msg) $('#gateMsg').textContent = msg; }
+async function start() {
+  if (tg) { document.documentElement.classList.toggle('tg', !!tg.initData); tg.ready(); tg.expand(); try { tg.setHeaderColor('bg_color'); } catch {} }
+  if (!DEMO && !(tg && tg.initData)) return showGate();
+  try {
+    const r = await call('me'); if (!r.ok) return showGate(r.error);
+    ME = r.data; $('#gate').hidden = true; $('#app').hidden = false;
+    let first = 'stats'; try { first = sessionStorage.getItem('tab') || 'stats'; } catch {}
+    selectTab(first);
+  } catch (e) { if ($('#app').hidden) showGate('Server bilan bog‘lanib bo‘lmadi. Internetni tekshirib, panelni qayta oching.'); }
+}
+
+// ---------- demo data (only with ?demo=1, for previewing the layout) ----------
+function demoCall(action, p) {
+  const D = window.__demo || (window.__demo = {
+    subjects: ['Matematika', 'Ingliz tili', 'Fizika', 'Kimyo', 'Biologiya', 'Ona tili', 'Tarix', 'Geografiya'],
+    q: [
+      { id: 3, subject: 'Matematika', topic: 'Planimetriya', body: 'To‘g‘ri burchakli uchburchakning katetlari 6 va 8 ga teng. Gipotenuzani toping.', options: ['7', '10', '12', '14'], correct: 1, explanation: 'Pifagor teoremasi: c² = 36 + 64 = 100, c = 10.', active: true, sent: 42, answered: 37, right: 29 },
+      { id: 2, subject: 'Fizika', topic: 'Energiya', body: 'Massasi 2 kg bo‘lgan jism 3 m/s tezlik bilan harakatlanmoqda. Kinetik energiyasi qancha?', options: ['3 J', '6 J', '9 J', '18 J'], correct: 2, explanation: 'Eₖ = mv²/2 = 9 J.', active: true, sent: 0, answered: 0, right: 0 },
+      { id: 1, subject: 'Tarix', topic: 'Temuriylar', body: 'Amir Temur qaysi yili tug‘ilgan?', options: ['1336', '1370', '1405'], correct: 0, explanation: '1336-yil, Kesh yaqinida.', active: false, sent: 12, answered: 10, right: 4 },
+    ],
+    texts: null, ses: [
+      { id: 1, subject: 'Matematika', exam_label: '23–24-noyabr', exam_start: '2026-11-23', reg_until: '2026-10-30' },
+      { id: 2, subject: 'Ona tili', exam_label: '26–28-dekabr', exam_start: '2026-12-26', reg_until: '2026-12-04' },
+      { id: 3, subject: 'Fizika', exam_label: '18-may', exam_start: '2026-05-18', reg_until: '2026-04-20' },
+    ],
+  });
+  const ok = (data) => Promise.resolve({ ok: true, data });
+  switch (action) {
+    case 'me': return ok({ user: { id: 1, first_name: 'Zafar' }, subjects: D.subjects, sessionSubjects: D.subjects.filter((s) => s !== 'Ingliz tili').concat('Boshlang‘ich sinf') });
+    case 'stats': return ok({ users: 1284, ready: 1130, blocked: 41, paused: 63, by_role: { s: 1010, t: 172, p: 88, '-': 14 }, new_7d: 640, new_today: 96, refs: 211,
+      sources: [{ source: 'landing', n: 702 }, { source: 'yt', n: 310 }, { source: 'ref', n: 211 }, { source: 'direct', n: 61 }],
+      subjects: [{ subject: 'Matematika', n: 520 }, { subject: 'Ingliz tili', n: 410 }, { subject: 'Biologiya', n: 300 }, { subject: 'Kimyo', n: 288 }, { subject: 'Fizika', n: 190 }],
+      today_sent: 1050, today_answered: 731, today_correct: 498, questions: { Matematika: 64, Fizika: 31, Kimyo: 8, Biologiya: 7, 'Ona tili': 6, Tarix: 6, 'Ingliz tili': 26, Geografiya: 6 } });
+    case 'q.list': { const rows = D.q.filter((q) => (!p.subject || q.subject === p.subject) && (p.status === 'all' || (p.status === 'active') === q.active) && (!p.search || q.body.toLowerCase().includes(p.search.toLowerCase())));
+      return ok({ total: rows.length, rows, by_subject: { Matematika: 16, Fizika: 8, Tarix: 6 } }); }
+    case 'q.save': return ok({ ...p, id: p.id || Date.now() });
+    case 'q.toggle': return ok({ ok: true });
+    case 't.list': return fetch(new URL('demo-texts.json', location.href)).then((r) => r.json()).then((d) => ({ ok: true, data: d })).catch(() => ok({ groups: [], items: [] }));
+    case 't.history': return ok([]);
+    case 't.save': return ok({ value: p.value, warnings: /kafolat/i.test(p.value) ? ['“kafolat” — natijani kafolatlab bo‘lmaydi'] : [] });
+    case 's.list': return ok(D.ses);
+    default: return ok(true);
+  }
+}
+start();
+</script>
+</body>
+</html>
