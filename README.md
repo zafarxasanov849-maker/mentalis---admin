@@ -1,18 +1,36 @@
 # Mentalis — admin panel
 
-Admin panel for the Mentalis bot (@mentaliss_bot). Two ways in, both from `/admin` in the bot:
+Milliy Sertifikat (MS) imtihoniga tayyorgarlik platformasining admin paneli. Telegram bot [`@mentaliss_bot`](https://t.me/mentaliss_bot) uchun orqa ofis.
 
-- **Inside Telegram** — “Panelni ochish” opens it as a Mini App; the server checks Telegram's signed `initData` on every request.
-- **In a normal browser (Chrome)** — “Brauzerda ochish” is a one-time link (10 minutes). Opening it creates a browser session
-  kept for 30 days; “Chiqish” in the top bar ends it on this browser or on all browsers. The server stores only hashes.
+## Kirish
 
-Only Telegram IDs in the bot's admin list get in.
+Faqat bot `admin_ids` ro'yxatidagi Telegram ID'lar kira oladi. Ikki yo'l, ikkalasi ham bot ichidagi `/admin` buyrug'idan:
 
-Sections: Statistika, Savollar (Kun savollari for the bot, Pro savollar for the platform: variant or written answer,
-difficulty, image; add/edit and Excel import), Bot matnlari (every bot message, with live preview and history),
-Sanalar (exam and registration dates used for the plan and reminders).
+- **Telegram Mini App** — "Panelni ochish" tugmasi panelni Mini App sifatida ochadi. Server har so'rovda Telegram'ning imzolangan `initData`sini tekshiradi.
+- **Oddiy brauzer (Chrome)** — "Brauzerda ochish" bir martalik havola (10 daqiqa ishlaydi). Ochilsa, 30 kunlik brauzer sessiyasi yaratiladi. Yuqori paneldagi "Chiqish" tugmasi joriy yoki barcha brauzerlarda sessiyani yopadi. Server faqat token hashlarini saqlaydi.
 
-- Single static page: `index.html`. Served by GitHub Pages.
-- API: Supabase Edge Function `levelup-bot` → `/admin`. Question images live in the private `q-images` bucket and are shown
-  through short-lived signed links. No secrets in this repo.
-- Layout preview without Telegram: open `index.html?demo=1` (add `&web=1` for the browser account menu; fake data, nothing is saved).
+## Sahifalar
+
+- **Statistika** — asosiy metrikalar
+- **Savollar**
+  - Kun savollari (bot kunlik yuboradi)
+  - Pro savollar (web platforma uchun — variant yoki yozma javob, qiyinlik, rasm; qo'shish/tahrir + Excel import)
+- **Bot matnlari** — har bot xabarini live preview va versiya tarixi bilan tahrir
+- **Sanalar** — rejalashtirish va eslatmalar uchun imtihon va ro'yxat sanalari
+
+## Texnik
+
+- **Sahifa:** bitta static `index.html`
+- **Hosting:** GitHub Pages
+- **API:** Supabase Edge Function `levelup-bot` → `/admin`
+- **Savol rasmlari:** `q-images` private bucket, qisqa muddatli signed URL
+- **Repo'da hech qanday secret yo'q**
+
+## Demo rejim (Telegram'siz)
+
+Dizaynni ko'rish uchun:
+
+- `index.html?demo=1` — faqat soxta ma'lumot bilan UI
+- `index.html?demo=1&web=1` — brauzer akkaunt menyusi bilan
+
+Demo rejimida hech narsa saqlanmaydi.
